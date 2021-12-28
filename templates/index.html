@@ -2,11 +2,40 @@
 
 
 {% block content%}
-<div class="jumbotron">
-    <h1 class="display-4">Hello, world!</h1>
-    <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-    <hr class="my-4">
-    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-  </div>
+<!--<div class="row">
+    <div class="col-6">
+      <label class="form-label" for="customFile">Buscar</label>
+      <input type="file" class="form-control" id="customFile" />
+    </div>
+    <div class="col-3">
+
+    </div>
+  </div>  -->
+
+
+<form action="uploader" method="post" enctype="multipart/form-data">
+  Upload file: <input type="file" name="myfile" /> <br />
+  <input type="submit"  name="submit" value="Submit" />
+</form>
+<script>
+
+  /*$("#leerArchivo").click(function () {
+    $.ajax({
+      url: "/ReadFile",
+      type: 'POST',
+      data: {
+        entrada: ''
+      },
+      beforeSend: function (xhr, settings) {
+        xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+      },
+      success: function (response) {
+        alert("Enviada");
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        alert('Disculpe, existió un problema intetelo nuevamente');
+      },
+    });
+  });*/
+</script>
 {%endblock%}
