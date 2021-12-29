@@ -12,17 +12,23 @@
     </div>
   </div>  -->
 
-<div class="row">
 
   <form id="formarchivo" action="uploader" method="post" enctype="multipart/form-data" class="">
-    <div class="col-6">
-      Cargar Archivo: <input type="file" name="myfile"/>
+       <div class="mb-3 col-6"> 
+        <label  class="form-label">Cargar Archivo:</label>
+        <input type="file" name="myfile"  class="form-control"/>
+        <div id="fileHelp" class="form-text">Tipo de Archivo Permitido .csv,.xls,.xlsx,.json </div>
+  
+       </div>
+
+    <div class="mb-3 ">
+      <button class="btn btn-primary" type="button"  name="submit"  id ="leerArchivo">Subir</button>
     </div>
-    <div class="col-6">
-      <input class="btn btn-primary" type="button"  name="submit" value="Subir"  id ="leerArchivo"/>
-    </div>    
+    
+    
+    
   </form>
-</div>
+
 
 <script>
   $("#leerArchivo").click(function (e) {
@@ -40,7 +46,7 @@
         xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
       },
       success: function (response) {
-        alert("Archivo Subido Correctamente");
+        alert("Archivo Subido Correctamente " +response);
       },
       error: function (xhr, ajaxOptions, thrownError) {
         alert('Disculpe, existió un problema intetelo nuevamente');

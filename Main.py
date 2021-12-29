@@ -5,6 +5,8 @@ from werkzeug.utils import redirect, secure_filename
 UPLOAD_FOLDER = './archs/'
 ALLOWED_EXTENSIONS = set(['csv'])
 
+
+
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -26,8 +28,15 @@ def upload_file():
       f = request.files['myfile']
       filename = secure_filename(f.filename)
       f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-      return redirect(url_for('home'))
+      archivonuevo = filename
+      return archivonuevo  #redirect(url_for('home'))
 		
 
+#-------------------------------------------------------------------------------------------
+archivonuevo = ""
+
+
+
+#----------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
     app.run(debug=True)
