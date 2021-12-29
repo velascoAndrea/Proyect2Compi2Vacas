@@ -1,9 +1,12 @@
 import os
+import sys
 from flask import Flask, render_template,request,url_for
+from flask.json import jsonify
 from werkzeug.utils import redirect, secure_filename 
-
+sys.path.insert(1, './Analisis')
+from analizararchivo import AnalizarArchivo
 UPLOAD_FOLDER = './archs/'
-ALLOWED_EXTENSIONS = set(['csv'])
+ALLOWED_EXTENSIONS = set(['csv','xls','xlsx','json'])
 
 
 
@@ -29,12 +32,13 @@ def upload_file():
       filename = secure_filename(f.filename)
       f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
       archivonuevo = filename
-      return archivonuevo  #redirect(url_for('home'))
+      dataframe = Analisis.LeerArchivo("./archs/"+archivonuevo)
+      return dataframe.to_string()  #redirect(url_for('home'))
 		
 
 #-------------------------------------------------------------------------------------------
 archivonuevo = ""
-
+Analisis = AnalizarArchivo()
 
 
 #----------------------------------------------------------------------------------------------------

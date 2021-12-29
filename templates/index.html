@@ -24,13 +24,19 @@
     <div class="mb-3 ">
       <button class="btn btn-primary" type="button"  name="submit"  id ="leerArchivo">Subir</button>
     </div>
-    
-    
-    
   </form>
+
+<form action="" style="display: none;" id="form-resultado">
+  <div class="mb-3 " style="text-align: center;">
+    <h3>Contenido del Archivo</h3>
+  </div>
+  <textarea class="form-control" id="resultado" rows="15"></textarea>
+</form>
+
 
 
 <script>
+  var dataFrame = null;
   $("#leerArchivo").click(function (e) {
     e.preventDefault();
     var form = $('form')[0];
@@ -46,7 +52,10 @@
         xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
       },
       success: function (response) {
-        alert("Archivo Subido Correctamente " +response);
+        alert("Archivo Subido Correctamente ");
+        dataFrame = response;
+        document.getElementById("form-resultado").style.display = 'block'
+        $("#resultado").val(dataFrame)
       },
       error: function (xhr, ajaxOptions, thrownError) {
         alert('Disculpe, existió un problema intetelo nuevamente');
