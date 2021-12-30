@@ -3,11 +3,11 @@
 {% block content%}
 
 <form>
-    <div class="col-6">
+    <div class="col-12">
         <label for="disabledTextInput" class="form-label">Prediccion A Realizar</label>
     </div>
-    <div class="col-6">
-        <select class="form-select" aria-label="Default select example">
+    <div class="col-12">
+        <select class="form-select" aria-label="Default select example" id="selectAnalisis">
             <option selected disabled>Escoja..</option>
             <option value="1">Tendencia de la infección por Covid-19 en un País.</option>
             <option value="2">Predicción de Infertados en un País.</option>
@@ -38,9 +38,19 @@
     </select>
 </form>
 
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="alert alert-danger" role="alert">
+            Debe de Escoger en Orden las Columnas que utilizara y verificar que se haya colocado
+            en el orden correcto para poder realizar un analisis Satisfactorio!
+          </div>
+    </div>
+</div>
+
+
 <div class="row mt-4">
-<div class="col-6">
-    <table id="tabla1" class="table">
+<div class="col-xl-6 col-md-6 col-sm-12">
+    <table id="tabla1" class="table table-striped">
 
         <thead>
             <tr>
@@ -48,46 +58,86 @@
             </tr>
           </thead>
         <tbody>
-            <tr id="a1">
-                <td>texto1<input name="" type="checkbox"></td>
+            <!--
+                <tr id="a1">
+                <td>texto1<input name="device" type="checkbox"></td>
             </tr>
             <tr id="a2">
-                <td>texto2   <input name="" type="checkbox"></td>
+                <td>texto2   <input name="device" type="checkbox"></td>
             </tr>
             <tr id="a3">
-                <td>texto3   <input name="" type="checkbox"></td>   
+                <td>texto3   <input name="device" type="checkbox"></td>   
             </tr>
-            
+            -->
         </tbody>
     </table>
 </div>
 
-<div class="col-6">
-    <table id="tabla2" class="table">
+<div class="col-xl-6 col-md-6 col-sm-12">
+    <table id="tabla2" class="table table-striped">
         <thead>
             <tr>
+                <th scope="col">Pais</th>
                 <th scope="col">Poblacion Infectada Y</th>
                 <th scope="col">Anio X</th>
               </tr>
           </thead>
         <tbody>
             <tr>
-
             </tr>
         </tbody>
     </table>
 </div>
 </div>
 
+<div class="row">
+    <div class="col-12">
+        <button type="button" class="btn btn-primary">Confirmar Parametrizacion</button>
+    </div>
+</div>
+
 
 <script>
-    
-        $('input[type=checkbox]').click(function() {
+        $("#selectAnalisis").change(function(){
+        var cur_value = $(this).val();
+       
+            if(cur_value == 1){
+                console.log("Tendecia de Infecion por Covid en un Pais")
+                //Obtengo las columnas del archivo Cargada
+                var columnas = getColumnas()
+                //console.log(columnas);
+                    for(var i = 0; i< columnas.length; i++){
+                        //$('#tabla1 tr:last').after(`<tr id="${columnas[i]}"><td>${columnas[i]}<input name="device" type="checkbox"></td></tr>`);
+                        var input = document.createElement("input");
+                        input.type = "checkbox";
+                        input.name = "device"
+                        input.addEventListener("click", llamarOnClick, false)
+                        $("#tabla1").find('tbody').append(`<tr><td id="${columnas[i]}">${columnas[i]}</td></tr>`);
+                        var parent = document.getElementById(columnas[i]);
+                        parent.appendChild(input)
+                    }
+                    
+                    /*var input = document.createElement("input");
+                    input.type = "checkbox";
+                    input.name = "device"
+                    input.addEventListener("click", llamarOnClick, false)
+                    $("#tabla1").find('tbody').append(`<tr><td id="a4">texto3</td></tr>`);
+                    var parent = document.getElementById("a4");
+                    parent.appendChild(input)*/
+                  
+            }//primer select
+
+
+        });
+
+        $('input:checkbox[name="device"]').click(function() {
+            console.log("Entro")
             if($(this).is(":checked"))
-            {
+            {   
                 // el checkbox esta marcado
                 // movemos la columna a la tabla2
                 var tr=$(this).parents("td").appendTo("#tabla2 tbody tr:last");
+                console.log("Entro")
             }else{
                 // el checkbox esta desmarcado
                 // movemos la columna a la tabla1
@@ -96,6 +146,55 @@
               var tr=$(this).parents("td").appendTo("#tabla1 tbody tr:last");
             }
         });
-    
+
+
+
+         function llamarOnClick(){
+            if($(this).is(":checked"))
+            {   
+                // el checkbox esta marcado
+                // movemos la columna a la tabla2
+                var tr=$(this).parents("td").appendTo("#tabla2 tbody tr:last");
+                console.log("Entro")
+            }else{
+                // el checkbox esta desmarcado
+                // movemos la columna a la tabla1
+              //var tr=$(this).parents('td').appendTo(`#tabla1 tbody td`)
+              $("#tabla1>tbody").append("<tr></tr>")
+              var tr=$(this).parents("td").appendTo("#tabla1 tbody tr:last");
+            }
+                
+         }
+
+      var  columnas;
+       function getColumnas(){
+            
+           $.ajax({
+                    url: "/NombreColumnas",
+                    type: 'POST',
+                    async: false,
+                    data:{
+                        filename: localStorage.getItem('Archivo')
+                    },
+                    beforeSend: function(xhr, settings) {
+                        xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                    },
+                    success: function(response) {
+                        columnas = response
+                       // console.log(columnas)
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert('Disculpe, existió un problema intetelo nuevamente');
+                    },
+                });  
+                
+                return columnas;
+        }
+
+
+        function ConfirmarParametrizacion(){
+            
+        }
+
     </script>
 {%endblock%}

@@ -33,14 +33,18 @@ def upload_file():
       f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
       archivonuevo = filename
       Data = Analisis.LeerArchivo("./archs/"+archivonuevo)
-      return Data.to_string()  #redirect(url_for('home'))
+      return jsonify(Data.to_string(),filename)  #redirect(url_for('home'))
 		
 
 
 @app.route('/NombreColumnas',methods = ['POST', 'GET'])
 def ImpresionConsola():
-    if request.method == 'GET':
-        return jsonify(Data.columns.values)
+    if request.method == 'POST':
+        envio = request.form
+        nombreArchivo = envio['filename']
+        Data = Analisis.LeerArchivo("./archs/"+nombreArchivo)
+        print(Data.columns.values.tolist())
+        return jsonify(Data.columns.values.tolist())
 
 
 #-------------------------------------------------------------------------------------------

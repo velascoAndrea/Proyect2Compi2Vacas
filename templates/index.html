@@ -2,16 +2,6 @@
 
 
 {% block content%}
-<!--<div class="row">
-    <div class="col-6">
-      <label class="form-label" for="customFile">Buscar</label>
-      <input type="file" class="form-control" id="customFile" />
-    </div>
-    <div class="col-3">
-
-    </div>
-  </div>  -->
-
 
   <form id="formarchivo" action="uploader" method="post" enctype="multipart/form-data" class="">
        <div class="mb-3 col-6"> 
@@ -43,6 +33,9 @@
 <script>
   var dataFrame = null;
   $("#leerArchivo").click(function (e) {
+
+    localStorage.removeItem('Archivo');
+
     e.preventDefault();
     var form = $('form')[0];
     var formData = new FormData(form);
@@ -58,9 +51,11 @@
       },
       success: function (response) {
         alert("Archivo Subido Correctamente ");
-        dataFrame = response;
+        dataFrame = response[0];
         document.getElementById("form-resultado").style.display = 'block'
         $("#resultado").val(dataFrame)
+        //console.log(response)
+        localStorage.setItem('Archivo', response[1]);
       },
       error: function (xhr, ajaxOptions, thrownError) {
         alert('Disculpe, existió un problema intetelo nuevamente');
