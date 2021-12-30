@@ -22,7 +22,7 @@ def home():
 
 @app.route('/about') 
 def about():
-    return render_template('about.html')
+    return render_template('parametrizacion.html')
 
 
 @app.route('/uploader', methods = ['GET', 'POST'])
@@ -32,14 +32,21 @@ def upload_file():
       filename = secure_filename(f.filename)
       f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
       archivonuevo = filename
-      dataframe = Analisis.LeerArchivo("./archs/"+archivonuevo)
-      return dataframe.to_string()  #redirect(url_for('home'))
+      Data = Analisis.LeerArchivo("./archs/"+archivonuevo)
+      return Data.to_string()  #redirect(url_for('home'))
 		
 
-#-------------------------------------------------------------------------------------------
-archivonuevo = ""
-Analisis = AnalizarArchivo()
 
+@app.route('/NombreColumnas',methods = ['POST', 'GET'])
+def ImpresionConsola():
+    if request.method == 'GET':
+        return jsonify(Data.columns.values)
+
+
+#-------------------------------------------------------------------------------------------
+archivonuevo = "" #nombre del Archivo Leido
+Analisis = AnalizarArchivo()
+Data = None #DataFramedeLosDatos 
 
 #----------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
