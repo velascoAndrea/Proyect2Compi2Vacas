@@ -6,7 +6,7 @@ from werkzeug.utils import redirect, secure_filename
 sys.path.insert(1, './Analisis')
 from analizararchivo import AnalizarArchivo
 import json as json
-
+import numpy as np
 
 UPLOAD_FOLDER = './archs/'
 ALLOWED_EXTENSIONS = set(['csv','xls','xlsx','json'])
@@ -32,10 +32,14 @@ def about():
 def upload_file():
    if request.method == 'POST':
       f = request.files['myfile']
+      print(f.content_type,"ARCHIVO")
       filename = secure_filename(f.filename)
       f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
       archivonuevo = filename
-      Data = Analisis.LeerArchivo("./archs/"+archivonuevo)
+
+      if(f.content_type=="text/csv"):
+        Data = Analisis.LeerArchivo("./archs/"+archivonuevo)
+
       return jsonify(Data.to_string(),filename)  #redirect(url_for('home'))
 		
 
@@ -45,8 +49,14 @@ def ImpresionConsola():
     if request.method == 'POST':
         envio = request.form
         nombreArchivo = envio['filename']
-        Data = Analisis.LeerArchivo("./archs/"+nombreArchivo)
-        print(Data.columns.values.tolist())
+
+        extension = nombreArchivo.split('.')
+        print("Extension",extension[len(extension)-1])
+
+        if(extension[len(extension)-1] =='csv'):
+            Data = Analisis.LeerArchivo("./archs/"+nombreArchivo)
+            print(Data.columns.values.tolist())
+
         return jsonify(Data.columns.values.tolist())
 
 
@@ -55,13 +65,25 @@ def ImpresionConsola():
 def Reporte1EnvioParametros():
     if request.method == 'POST':
         envio = request.form
-        #en la posicion 0 esta el Pais
+        
         parametros = json.loads(envio['columnas'])
-        print(envio)
-        print(type(parametros))
-        print(parametros[1])
+        nombreArchivo = envio['filename']
+        extension = nombreArchivo.split('.')
+        print("Extension",extension[len(extension)-1])
+
+        if(extension[len(extension)-1] =='csv'):
+            Data = Analisis.LeerArchivo("./archs/"+nombreArchivo)
+        #en la posicion 0 esta el Pais
+            print(Data[parametros[0]].dropna().drop_duplicates().values)
+            
+        #print(type(Data[parametros[0]].to_string()))
+        #print(envio)
+        #print(type(parametros))
+        #print(parametros[0])
         #print(envio['filename'])
-        return ""
+
+        #Quito los valores nulos y los Duplicado para obtener la Lista de Paises 
+        return  jsonify(np.array(Data[parametros[0]].dropna().drop_duplicates().values).tolist())
 
 
 

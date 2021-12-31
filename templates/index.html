@@ -2,19 +2,21 @@
 
 
 {% block content%}
+  <div class="contenido-hero pt-4">
+    <h4 >Selecciona un Archivo</h4>
+    <form id="formarchivo" action="uploader" method="post" enctype="multipart/form-data" class="">
+      <div class="mb-3 row"> 
+       <input type="file" name="myfile"  class="form-control"/>
+       <div id="fileHelp" class="form-text">Tipo de Archivo Permitido .csv,.xls,.xlsx,.json </div>
+      </div>
+   <div class="mb-3 row">
+     <button class="btn btn-info" type="button"  name="submit"  id ="leerArchivo">Subir</button>
+   </div>
+ </form>
+  </div>
 
-  <form id="formarchivo" action="uploader" method="post" enctype="multipart/form-data" class="">
-       <div class="mb-3 col-6"> 
-        <label  class="form-label">Cargar Archivo:</label>
-        <input type="file" name="myfile"  class="form-control"/>
-        <div id="fileHelp" class="form-text">Tipo de Archivo Permitido .csv,.xls,.xlsx,.json </div>
   
-       </div>
 
-    <div class="mb-3 ">
-      <button class="btn btn-primary" type="button"  name="submit"  id ="leerArchivo">Subir</button>
-    </div>
-  </form>
 
 <form action="" style="display: none;" id="form-resultado">
   <div class="mb-3 " style="text-align: center;">

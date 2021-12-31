@@ -1,0 +1,58 @@
+/*Esto sirve como variables globales*/
+:root{
+    --blanco:#ffffff;
+    --oscuro:#212121;
+    --primario:#ffc107;
+    --secundario:#0097A7;
+    --gris:#757575;  
+    --grisClaro:#DFE9F3;
+}
+
+.contenido-hero{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-bg{
+    background-color: var(--secundario);
+}
+
+.navegacion-principal{
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+ /*Vamos a utilizar un media query para el responsive no es necesario
+ definit el display por que se hereda*/
+ @media(min-width: 768px){
+    .navegacion-principal{    
+        flex-direction: row;
+        justify-content: space-evenly;
+        
+    }
+ }
+
+.navegacion-principal a{
+    color: var(--blanco);
+    text-decoration: none;  
+    font-weight: 700;
+    padding: 1rem;
+}
+/*Esto es para que cuando se pase el mouse sobre el enlace cambie de color
+el color es para cuando cambie se ponga la letra negra
+*/
+.navegacion-principal a:hover{
+    background-color: var(--primario);
+    color: var(--oscuro);
+}
+
+.contenedor {
+    max-width: 120rem;
+    margin-top: 0;
+    margin-right: auto;
+    margin-bottom: 0;
+    margin-left: auto;
+}

@@ -1,8 +1,12 @@
 {% extends "layout.html" %}
 
 {% block content%}
-
-<form>
+<div class="contenido-hero">
+    <h4 >Archivo a Analizar</h4>
+    <span id ="TituloArchivo">Freelancer</span>
+    <a type="button" class="btn btn-danger btn-sm" href="{{url_for('home')}}">cambiar</a>
+</div>
+<form>   
     <div class="col-12">
         <label for="disabledTextInput" class="form-label">Prediccion A Realizar</label>
     </div>
@@ -19,20 +23,25 @@
             <option value="8">Predicción de casos de un país para un año</option>
             <option value="9">Tendencia de la vacunación de en un País.</option>
             <option value="10">Ánalisis Comparativo de Vacunaciópn entre 2 paises</option>
-            <option value="11">Porcentaje de hombres infectados por covid-19 en un País desde el primer caso activo</option>
+            <option value="11">Porcentaje de hombres infectados por covid-19 en un País desde el primer caso activo
+            </option>
             <option value="12">Ánalisis Comparativo entres 2 o más paises o continentes.</option>
             <option value="13">Muertes promedio por casos confirmados y edad de covid 19 en un País</option>
             <option value="14">Muertes según regiones de un país - Covid 19</option>
             <option value="15">Tendencia de casos confirmados de Coronavirus en un departamento de un País</option>
             <option value="16">Porcentaje de muertes frente al total de casos en un país, región o continente</option>
-            <option value="17">Tasa de comportamiento de casos activos en relación al número de muertes en un continente.</option>
-            <option value="18">Comportamiento y clasificación de personas infectadas por COVID-19 por municipio en un País.</option>
+            <option value="17">Tasa de comportamiento de casos activos en relación al número de muertes en un
+                continente.</option>
+            <option value="18">Comportamiento y clasificación de personas infectadas por COVID-19 por municipio en un
+                País.</option>
             <option value="19">Predicción de muertes en el último día del primer año de infecciones en un país.</option>
-            <option value="20">Tasa de crecimiento de casos de COVID-19 en relación con nuevos casos diarios y tasa de muerte por COVID-19</option>
+            <option value="20">Tasa de crecimiento de casos de COVID-19 en relación con nuevos casos diarios y tasa de
+                muerte por COVID-19</option>
             <option value="21">Predicciones de casos y muertes en todo el mundo - Neural Network MLPRegressor</option>
             <option value="22">Tasa de mortalidad por coronavirus (COVID-19) en un país.</option>
             <option value="23">Factores de muerte por COVID-19 en un país.</option>
-            <option value="24">Comparación entre el número de casos detectados y el número de pruebas de un país.</option>
+            <option value="24">Comparación entre el número de casos detectados y el número de pruebas de un país.
+            </option>
             <option value="25">Predicción de casos confirmados por día</option>
     </div>
     </select>
@@ -43,164 +52,185 @@
         <div class="alert alert-danger" role="alert">
             Debe de Escoger en Orden las Columnas que utilizara y verificar que se haya colocado
             en el orden correcto para poder realizar un analisis Satisfactorio!
-          </div>
+        </div>
     </div>
 </div>
 
 <!-- REPORTE NUMERO 1-->
 <div class="row mt-4">
-<div class="col-xl-6 col-md-6 col-sm-12">
-    <table id="tabla1" class="table table-striped">
+    <div class="col-xl-6 col-md-6 col-sm-12">
+        <table id="tabla1" class="table table-striped">
 
-        <thead>
-            <tr>
-              <th scope="col">Columnas de la Data</th>
-            </tr>
-          </thead>
-        <tbody>
-        </tbody>
-    </table>
+            <thead>
+                <tr>
+                    <th scope="col">Columnas de la Data</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-xl-6 col-md-6 col-sm-12">
+        <table id="tabla2" class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Pais</th>
+                    <th scope="col">Poblacion Infectada Y</th>
+                    <th scope="col">Anio X</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
-<div class="col-xl-6 col-md-6 col-sm-12">
-    <table id="tabla2" class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">Pais</th>
-                <th scope="col">Poblacion Infectada Y</th>
-                <th scope="col">Anio X</th>
-              </tr>
-          </thead>
-        <tbody>
-            <tr>
-            </tr>
-        </tbody>
-    </table>
-</div>
-</div>
+
 
 <div class="row">
     <div class="col-12">
-        <button type="button" class="btn btn-primary" onclick="ConfirmarParametrizacion()">Confirmar Parametrizacion</button>
+        <button type="button" class="btn btn-info" onclick="ConfirmarParametrizacion()">Confirmar
+            Parametrizacion</button>
+    </div>
+</div>
+
+<div><!--DIV PARA PAISES-->
+<div class="row mt-4" id="listaPaises">
+    <div class="col-6">
+        <label class="form-label" for="cmppaises">Seleccione el pais a analizar</label>
+        <select name="cmppaises" class="form-select">
+            <option selected disabled hidden>Seleccione un Pais...</option>
+        </select>
+    </div>
     </div>
 </div>
 
 
 <script>
-        $("#selectAnalisis").change(function(){
+    document.getElementById('TituloArchivo').innerHTML=localStorage.getItem('Archivo').toString();
+    $("#selectAnalisis").change(function () {
         var cur_value = $(this).val();
-       
-            if(cur_value == 1){
-                console.log("Tendecia de Infecion por Covid en un Pais")
-                //Obtengo las columnas del archivo Cargada
-                var colum = getColumnas().then(columnas =>{
-                    for(var i = 0; i< columnas.length; i++){
-                        //$('#tabla1 tr:last').after(`<tr id="${columnas[i]}"><td>${columnas[i]}<input name="device" type="checkbox"></td></tr>`);
-                        var input = document.createElement("input");
-                        input.type = "checkbox";
-                        input.name = "device"
-                        input.addEventListener("click", llamarOnClick, false)
-                        $("#tabla1").find('tbody').append(`<tr><td id="${columnas[i]}">${columnas[i]}</td></tr>`);
-                        var parent = document.getElementById(columnas[i]);
-                        parent.appendChild(input)
-                    }
-                })
-                //console.log(columnas);
-                    
-            }//primer select
+
+        if (cur_value == 1) {
+            console.log("Tendecia de Infecion por Covid en un Pais")
+            //Obtengo las columnas del archivo Cargada
+            var colum = getColumnas().then(columnas => {
+                for (var i = 0; i < columnas.length; i++) {
+                    //$('#tabla1 tr:last').after(`<tr id="${columnas[i]}"><td>${columnas[i]}<input name="device" type="checkbox"></td></tr>`);
+                    var input = document.createElement("input");
+                    input.type = "checkbox";
+                    input.name = "device"
+                    input.addEventListener("click", llamarOnClick, false)
+                    $("#tabla1").find('tbody').append(`<tr><td id="${columnas[i]}">${columnas[i]}</td></tr>`);
+                    var parent = document.getElementById(columnas[i]);
+                    parent.appendChild(input)
+                }
+            })
+            //console.log(columnas);
+
+        }//primer select
 
 
-        });
+    });
 
-        $('input:checkbox[name="device"]').click(function() {
+    $('input:checkbox[name="device"]').click(function () {
+        console.log("Entro")
+        if ($(this).is(":checked")) {
+            // el checkbox esta marcado
+            // movemos la columna a la tabla2
+            var tr = $(this).parents("td").appendTo("#tabla2 tbody tr:last");
             console.log("Entro")
-            if($(this).is(":checked"))
-            {   
-                // el checkbox esta marcado
-                // movemos la columna a la tabla2
-                var tr=$(this).parents("td").appendTo("#tabla2 tbody tr:last");
-                console.log("Entro")
-            }else{
-                // el checkbox esta desmarcado
-                // movemos la columna a la tabla1
-              //var tr=$(this).parents('td').appendTo(`#tabla1 tbody td`)
-              $("#tabla1>tbody").append("<tr></tr>")
-              var tr=$(this).parents("td").appendTo("#tabla1 tbody tr:last");
-            }
+        } else {
+            // el checkbox esta desmarcado
+            // movemos la columna a la tabla1
+            //var tr=$(this).parents('td').appendTo(`#tabla1 tbody td`)
+            $("#tabla1>tbody").append("<tr></tr>")
+            var tr = $(this).parents("td").appendTo("#tabla1 tbody tr:last");
+        }
+    });
+
+
+
+    function llamarOnClick() {
+        if ($(this).is(":checked")) {
+            // el checkbox esta marcado
+            // movemos la columna a la tabla2
+            var tr = $(this).parents("td").appendTo("#tabla2 tbody tr:last");
+            console.log("Entro")
+        } else {
+            // el checkbox esta desmarcado
+            // movemos la columna a la tabla1
+            $("#tabla1>tbody").append("<tr></tr>")
+            var tr = $(this).parents("td").appendTo("#tabla1 tbody tr:last");
+        }
+
+    }
+
+
+    async function getColumnas() {
+        var columnas;
+        await $.ajax({
+            url: "/NombreColumnas",
+            type: 'POST',
+            //async: false,
+            data: {
+                filename: localStorage.getItem('Archivo')
+            },
+            beforeSend: function (xhr, settings) {
+                xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+            },
+            success: function (response) {
+                columnas = response
+                // console.log(columnas)
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Disculpe, existió un problema intetelo nuevamente');
+            },
         });
 
+        return columnas;
+    }
 
-
-         function llamarOnClick(){
-            if($(this).is(":checked"))
-            {   
-                // el checkbox esta marcado
-                // movemos la columna a la tabla2
-                var tr=$(this).parents("td").appendTo("#tabla2 tbody tr:last");
-                console.log("Entro")
-            }else{
-                // el checkbox esta desmarcado
-                // movemos la columna a la tabla1
-              $("#tabla1>tbody").append("<tr></tr>")
-              var tr=$(this).parents("td").appendTo("#tabla1 tbody tr:last");
-            }
-                
-         }
-
-      
-      async function getColumnas(){
-        var  columnas;      
-       await  $.ajax({
-                    url: "/NombreColumnas",
-                    type: 'POST',
-                    //async: false,
-                    data:{
-                        filename: localStorage.getItem('Archivo')
-                    },
-                    beforeSend: function(xhr, settings) {
-                        xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
-                    },
-                    success: function(response) {
-                        columnas = response
-                       // console.log(columnas)
-                    },
-                    error: function(xhr, ajaxOptions, thrownError) {
-                        alert('Disculpe, existió un problema intetelo nuevamente');
-                    },
-                });  
-                
-                return columnas;
+    var arr = [];
+    function ConfirmarParametrizacion() {
+        var cells = Array.prototype.slice.call(document.getElementById("tabla2").getElementsByTagName("td"));
+        for (var i in cells) {
+            console.log(cells[i].innerText);
+            arr.push(cells[i].innerText)
         }
+        $.ajax({
+            url: "/Reporte1EnvioParametros",
+            type: 'POST',
+            data: {
+                columnas: JSON.stringify(arr),
+                filename: localStorage.getItem('Archivo')
+            },
+            beforeSend: function (xhr, settings) {
+                xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+            },
+            success: function (response) {
+                columnas = response
+                console.log(columnas)
+                var select = document.getElementsByName('cmppaises')[0];
 
-        var arr = [];
-        function ConfirmarParametrizacion(){
-            var cells = Array.prototype.slice.call(document.getElementById("tabla2").getElementsByTagName("td"));
-            for(var i in cells){
-                console.log( cells[i].innerText);
-                arr.push(cells[i].innerText)
-            }
-            $.ajax({
-                    url: "/Reporte1EnvioParametros",
-                    type: 'POST',
-                    data:{
-                        columnas: JSON.stringify(arr),
-                        filename: localStorage.getItem('Archivo')
-                    },
-                    beforeSend: function(xhr, settings) {
-                        xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
-                    },
-                    success: function(response) {
-                        columnas = response
-                       // console.log(columnas)
-                    },
-                    error: function(xhr, ajaxOptions, thrownError) {
-                        alert('Disculpe, existió un problema intetelo nuevamente');
-                    },
-                });  
-        }
-
-
+                for (value in columnas) {
+                    var option = document.createElement("option");
+                    option.text = columnas[value];
+                    option.value = columnas[value];
+                    select.add(option);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Disculpe, existió un problema intetelo nuevamente');
+            },
+        });
+    }
 
 
-    </script>
+
+
+</script>
 {%endblock%}
