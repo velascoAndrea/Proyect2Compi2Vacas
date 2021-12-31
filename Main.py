@@ -5,6 +5,9 @@ from flask.json import jsonify
 from werkzeug.utils import redirect, secure_filename 
 sys.path.insert(1, './Analisis')
 from analizararchivo import AnalizarArchivo
+import json as json
+
+
 UPLOAD_FOLDER = './archs/'
 ALLOWED_EXTENSIONS = set(['csv','xls','xlsx','json'])
 
@@ -47,10 +50,27 @@ def ImpresionConsola():
         return jsonify(Data.columns.values.tolist())
 
 
+
+@app.route('/Reporte1EnvioParametros',methods = ['POST', 'GET'])
+def Reporte1EnvioParametros():
+    if request.method == 'POST':
+        envio = request.form
+        #en la posicion 0 esta el Pais
+        parametros = json.loads(envio['columnas'])
+        print(envio)
+        print(type(parametros))
+        print(parametros[1])
+        #print(envio['filename'])
+        return ""
+
+
+
 #-------------------------------------------------------------------------------------------
 archivonuevo = "" #nombre del Archivo Leido
 Analisis = AnalizarArchivo()
 Data = None #DataFramedeLosDatos 
+
+
 
 #----------------------------------------------------------------------------------------------------
 if __name__ == '__main__':

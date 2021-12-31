@@ -47,7 +47,7 @@
     </div>
 </div>
 
-
+<!-- REPORTE NUMERO 1-->
 <div class="row mt-4">
 <div class="col-xl-6 col-md-6 col-sm-12">
     <table id="tabla1" class="table table-striped">
@@ -58,17 +58,6 @@
             </tr>
           </thead>
         <tbody>
-            <!--
-                <tr id="a1">
-                <td>texto1<input name="device" type="checkbox"></td>
-            </tr>
-            <tr id="a2">
-                <td>texto2   <input name="device" type="checkbox"></td>
-            </tr>
-            <tr id="a3">
-                <td>texto3   <input name="device" type="checkbox"></td>   
-            </tr>
-            -->
         </tbody>
     </table>
 </div>
@@ -92,7 +81,7 @@
 
 <div class="row">
     <div class="col-12">
-        <button type="button" class="btn btn-primary">Confirmar Parametrizacion</button>
+        <button type="button" class="btn btn-primary" onclick="ConfirmarParametrizacion()">Confirmar Parametrizacion</button>
     </div>
 </div>
 
@@ -104,8 +93,7 @@
             if(cur_value == 1){
                 console.log("Tendecia de Infecion por Covid en un Pais")
                 //Obtengo las columnas del archivo Cargada
-                var columnas = getColumnas()
-                //console.log(columnas);
+                var colum = getColumnas().then(columnas =>{
                     for(var i = 0; i< columnas.length; i++){
                         //$('#tabla1 tr:last').after(`<tr id="${columnas[i]}"><td>${columnas[i]}<input name="device" type="checkbox"></td></tr>`);
                         var input = document.createElement("input");
@@ -116,15 +104,9 @@
                         var parent = document.getElementById(columnas[i]);
                         parent.appendChild(input)
                     }
+                })
+                //console.log(columnas);
                     
-                    /*var input = document.createElement("input");
-                    input.type = "checkbox";
-                    input.name = "device"
-                    input.addEventListener("click", llamarOnClick, false)
-                    $("#tabla1").find('tbody').append(`<tr><td id="a4">texto3</td></tr>`);
-                    var parent = document.getElementById("a4");
-                    parent.appendChild(input)*/
-                  
             }//primer select
 
 
@@ -159,20 +141,19 @@
             }else{
                 // el checkbox esta desmarcado
                 // movemos la columna a la tabla1
-              //var tr=$(this).parents('td').appendTo(`#tabla1 tbody td`)
               $("#tabla1>tbody").append("<tr></tr>")
               var tr=$(this).parents("td").appendTo("#tabla1 tbody tr:last");
             }
                 
          }
 
-      var  columnas;
-       function getColumnas(){
-            
-           $.ajax({
+      
+      async function getColumnas(){
+        var  columnas;      
+       await  $.ajax({
                     url: "/NombreColumnas",
                     type: 'POST',
-                    async: false,
+                    //async: false,
                     data:{
                         filename: localStorage.getItem('Archivo')
                     },
@@ -191,10 +172,35 @@
                 return columnas;
         }
 
-
+        var arr = [];
         function ConfirmarParametrizacion(){
-            
+            var cells = Array.prototype.slice.call(document.getElementById("tabla2").getElementsByTagName("td"));
+            for(var i in cells){
+                console.log( cells[i].innerText);
+                arr.push(cells[i].innerText)
+            }
+            $.ajax({
+                    url: "/Reporte1EnvioParametros",
+                    type: 'POST',
+                    data:{
+                        columnas: JSON.stringify(arr),
+                        filename: localStorage.getItem('Archivo')
+                    },
+                    beforeSend: function(xhr, settings) {
+                        xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                    },
+                    success: function(response) {
+                        columnas = response
+                       // console.log(columnas)
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert('Disculpe, existió un problema intetelo nuevamente');
+                    },
+                });  
         }
+
+
+
 
     </script>
 {%endblock%}
