@@ -3,7 +3,7 @@
 {% block content%}
 <div class="contenido-hero">
     <h4 >Archivo a Analizar</h4>
-    <span id ="TituloArchivo">Freelancer</span>
+    <span id ="TituloArchivo"></span>
     <a type="button" class="btn btn-danger btn-sm" href="{{url_for('home')}}">cambiar</a>
 </div>
 <form>   
@@ -56,6 +56,21 @@
     </div>
 </div>
 
+<!--
+<div class="row">
+    <div class="col-xl-6 col-md-6 col-sm-12">
+        <label for="disabledTextInput" class="form-label">Fecha de Inicio: </label>
+        <input class="form-control" id="cmpfechanaInicio" name="cmpfechanaInicio" type="text" required="required"  readonly >
+    </div>
+    <div class="col-xl-6 col-md-6 col-sm-12">
+        <label for="disabledTextInput" class="form-label">Fecha Final:  </label>
+        <input class="form-control" id="cmpfechanaFinal" name="cmpfechanaInicio" type="text" required="required"  readonly >
+    </div>
+</div>
+
+-->
+
+
 <!-- REPORTE NUMERO 1-->
 <div class="row mt-4">
     <div class="col-xl-6 col-md-6 col-sm-12">
@@ -76,8 +91,8 @@
             <thead>
                 <tr>
                     <th scope="col">Pais</th>
-                    <th scope="col">Poblacion Infectada Y</th>
-                    <th scope="col">Anio X</th>
+                    <th scope="col">Numero de Casos</th>
+                    <th scope="col">Fecha</th>
                 </tr>
             </thead>
             <tbody>
@@ -90,27 +105,55 @@
 
 
 
-<div class="row">
-    <div class="col-12">
-        <button type="button" class="btn btn-info" onclick="ConfirmarParametrizacion()">Confirmar
+<div class="row mt-3">
+    
+        <button id="btnConfirmarParam" type="button" class="btn boton__princila col-xl-6 col-md col-sm-12" onclick="ConfirmarParametrizacion()">Confirmar
             Parametrizacion</button>
-    </div>
+    
 </div>
 
-<div><!--DIV PARA PAISES-->
+<div class="row mt-3">
+    <a id="btnResetAnalisis" type="button" class="btn btn-danger col-xl-6 col-md col-sm-12" href="{{url_for('about')}}" style="display: none;">
+        Resetear</a>
+
+</div>
+
+<div id="ListaPaisesReporte1" style="display: none;"><!--DIV PARA PAISES-->
 <div class="row mt-4" id="listaPaises">
-    <div class="col-6">
-        <label class="form-label" for="cmppaises">Seleccione el pais a analizar</label>
-        <select name="cmppaises" class="form-select">
+    <div class="col-12">
+        <h5>Lista de Paises</h5>
+    </div>
+    <div class="col-xl-6 col-md col-sm-12">
+        
+        <select name="cmppaises" class="form-select" id="selectPaises">
             <option selected disabled hidden>Seleccione un Pais...</option>
         </select>
     </div>
+    </div>
+    <div class="row mt-3" >
+            <button type="button" class="btn boton__princila col-xl-6 col-md col-sm-12" onclick="AnalizarParametrosReporte1()">Analizar Parametros</button>
     </div>
 </div>
 
 
 <script>
     document.getElementById('TituloArchivo').innerHTML=localStorage.getItem('Archivo').toString();
+
+    /*$("#cmpfechanaInicio").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            format: 'dd/mm/yyyy',
+            todayHighlight: true
+    });
+
+    $("#cmpfechanaFinal").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            format: 'dd/mm/yyyy',
+            todayHighlight: true
+    });*/
+
+
     $("#selectAnalisis").change(function () {
         var cur_value = $(this).val();
 
@@ -196,6 +239,8 @@
 
     var arr = [];
     function ConfirmarParametrizacion() {
+        $("#btnConfirmarParam").prop('disabled', true);
+        document.getElementById("btnResetAnalisis").style.display = 'block'
         var cells = Array.prototype.slice.call(document.getElementById("tabla2").getElementsByTagName("td"));
         for (var i in cells) {
             console.log(cells[i].innerText);
@@ -212,10 +257,11 @@
                 xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
             },
             success: function (response) {
+                //alert("Paises Cargados")
+                document.getElementById("ListaPaisesReporte1").style.display = 'block'
                 columnas = response
-                console.log(columnas)
+                //console.log(columnas)
                 var select = document.getElementsByName('cmppaises')[0];
-
                 for (value in columnas) {
                     var option = document.createElement("option");
                     option.text = columnas[value];
@@ -229,8 +275,27 @@
         });
     }
 
-
-
+    function AnalizarParametrosReporte1(){
+        var selectPais = $("#selectPaises").val()
+        $.ajax({
+            url: "/AnalisisReporte1",
+            type: 'POST',
+            data: {
+                columnas: JSON.stringify(arr),
+                filename: localStorage.getItem('Archivo'),
+                pais: selectPais
+            },
+            beforeSend: function (xhr, settings) {
+                xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+            },
+            success: function (response) {
+                
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Disculpe, existió un problema intetelo nuevamente');
+            },
+        });
+    }
 
 </script>
 {%endblock%}

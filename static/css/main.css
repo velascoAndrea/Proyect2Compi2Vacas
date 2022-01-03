@@ -6,6 +6,7 @@
     --secundario:#0097A7;
     --gris:#757575;  
     --grisClaro:#DFE9F3;
+    --secundarioOscuro: #EDD75D;
 }
 
 .contenido-hero{
@@ -31,7 +32,6 @@
     .navegacion-principal{    
         flex-direction: row;
         justify-content: space-evenly;
-        
     }
  }
 
@@ -55,4 +55,14 @@ el color es para cuando cambie se ponga la letra negra
     margin-right: auto;
     margin-bottom: 0;
     margin-left: auto;
+}
+
+.boton__princila{
+    background-color: var(--secundario);
+    color: var(--blanco);
+}
+
+.boton__princila:hover{
+    background-color: var(--secundarioOscuro);
+    color: var(--oscuro);
 }
