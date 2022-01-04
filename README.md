@@ -5,7 +5,7 @@
 |           Estudiante           |   Carnet  |
 |:------------------------------:|:---------:|
 | Escarleth Andrea Velasco Campos | 201503378 |
-|
+
 
 ## Links
 
