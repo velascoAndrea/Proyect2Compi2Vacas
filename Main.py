@@ -32,6 +32,11 @@ def about():
     return render_template('parametrizacion.html')
 
 
+@app.route('/reportes') 
+def reportes():
+    return render_template('reporte.html')
+
+
 @app.route('/uploader', methods = ['GET', 'POST'])
 def upload_file():
    if request.method == 'POST':
@@ -102,9 +107,24 @@ def AnalisisReporte1():
         extension = nombreArchivo.split('.')
     if(extension[len(extension)-1] =='csv'):
         AnalisisRep1 = rep.AnalizarRep1("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2])
-        #print(AnalisisRep1)
-        
-    return ""    
+        #print(AnalisisRep1[1],"RETORNO IMAGen")
+        an = '<img src=\'data:image/png;base64,{}\'>'.format(AnalisisRep1[0])
+    return  jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep1[0]),AnalisisRep1[1])
+
+
+@app.route('/AnalisisReporte2',methods = ['POST', 'GET'])
+def AnalisisReporte2():
+    print("Prediccion de infectados en un pais")
+    if request.method == 'POST':
+        envio = request.form
+        parametros = json.loads(envio['columnas'])
+        #print(parametros)
+        nombreArchivo = envio['filename']
+        pais = envio['pais']
+        extension = nombreArchivo.split('.')
+    if(extension[len(extension)-1] =='csv'):
+        AnalisisRep2 = rep.AnalizarRep2("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2])
+    return jsonify('<img src=\'data:image/png;base64,{}\'>'.format(AnalisisRep2[0]),AnalisisRep2[1])
 
 
 #-------------------------------------------------------------------------------------------

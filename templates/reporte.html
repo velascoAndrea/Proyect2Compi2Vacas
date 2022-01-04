@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block content%}
+<div  class="row">
+    <div class="col-12" id="Imagen">
+        
+    </div>
+</div>
+<script>
+document.getElementById('Imagen').innerHTML = localStorage.getItem('Imagen').toString();
+</script>
+{%endblock%}

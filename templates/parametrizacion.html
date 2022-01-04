@@ -81,26 +81,30 @@
                     <th scope="col">Columnas de la Data</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tabla1body">
             </tbody>
         </table>
     </div>
 
-    <div class="col-xl-6 col-md-6 col-sm-12">
-        <table id="tabla2" class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">Pais</th>
-                    <th scope="col">Numero de Casos</th>
-                    <th scope="col">Fecha</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <!--Tendencia de Infectados Prediccion de casos en un pais-->
+    
+        <div class="col-xl-6 col-md-6 col-sm-12" id="tabla2visibiidad" style="display: none;">
+            <table id="tabla2" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Pais</th>
+                        <th scope="col">Numero de Casos</th>
+                        <th scope="col">Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="filatabla2">
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    
+   
 </div>
 
 
@@ -131,10 +135,15 @@
     </div>
     </div>
     <div class="row mt-3" >
-            <button type="button" class="btn boton__princila col-xl-6 col-md col-sm-12" onclick="AnalizarParametrosReporte1()">Analizar Parametros</button>
+            <button id ="Analizar Parametros" type="button" class="btn boton__princila col-xl-6 col-md col-sm-12" onclick="AnalizarParametrosReporte1()">Analizar Parametros</button>
     </div>
 </div>
 
+<div  class="row">
+<div class="col-12" id="Imagen">
+    
+</div>
+</div>
 
 <script>
     document.getElementById('TituloArchivo').innerHTML=localStorage.getItem('Archivo').toString();
@@ -155,14 +164,24 @@
 
 
     $("#selectAnalisis").change(function () {
-        var cur_value = $(this).val();
+        document.getElementById("tabla2visibiidad").style.display = 'none'
+        document.getElementById("ListaPaisesReporte1").style.display = 'none'
+        //localStorage.removeItem('Imagen');
 
-        if (cur_value == 1) {
+        var cur_value = $(this).val();
+        if (cur_value == 1  ||cur_value == 2) {
+            //Tendencia de Infeccion por Covid 19
             console.log("Tendecia de Infecion por Covid en un Pais")
             //Obtengo las columnas del archivo Cargada
             var colum = getColumnas().then(columnas => {
+                document.getElementById("tabla2visibiidad").style.display = 'block'
+                var Table = document.getElementById("tabla1body");
+                Table.innerHTML = "";
+                var Table2 =  document.getElementById("filatabla2");
+                Table2.innerHTML = ""; 
                 for (var i = 0; i < columnas.length; i++) {
                     //$('#tabla1 tr:last').after(`<tr id="${columnas[i]}"><td>${columnas[i]}<input name="device" type="checkbox"></td></tr>`);
+                    //Aqui agrego los campos de la tabla Leida
                     var input = document.createElement("input");
                     input.type = "checkbox";
                     input.name = "device"
@@ -173,9 +192,7 @@
                 }
             })
             //console.log(columnas);
-
-        }//primer select
-
+        }
 
     });
 
@@ -241,7 +258,11 @@
     function ConfirmarParametrizacion() {
         $("#btnConfirmarParam").prop('disabled', true);
         document.getElementById("btnResetAnalisis").style.display = 'block'
-        var cells = Array.prototype.slice.call(document.getElementById("tabla2").getElementsByTagName("td"));
+
+        var selectAnalisis = $("#selectAnalisis").val()
+
+        if(selectAnalisis == 1 || selectAnalisis == 2){
+            var cells = Array.prototype.slice.call(document.getElementById("tabla2").getElementsByTagName("td"));
         for (var i in cells) {
             console.log(cells[i].innerText);
             arr.push(cells[i].innerText)
@@ -258,7 +279,11 @@
             },
             success: function (response) {
                 //alert("Paises Cargados")
+                var selectPaies = document.getElementsByName('cmppaises')[0];
+                selectPaies.innerHTML = "";
+                //Aqui es donde se muestra toda la parte de paises y la confirmacion para analizar
                 document.getElementById("ListaPaisesReporte1").style.display = 'block'
+
                 columnas = response
                 //console.log(columnas)
                 var select = document.getElementsByName('cmppaises')[0];
@@ -273,10 +298,18 @@
                 alert('Disculpe, existió un problema intetelo nuevamente');
             },
         });
+        }//Primer reporte, segunfo
+      
+        
     }
 
     function AnalizarParametrosReporte1(){
+        localStorage.removeItem('Imagen');
+        var selectAnalisis = $("#selectAnalisis").val()
         var selectPais = $("#selectPaises").val()
+        $("#Analizar Parametros").prop('disabled', true);
+        if(selectAnalisis ==1 ){
+       
         $.ajax({
             url: "/AnalisisReporte1",
             type: 'POST',
@@ -289,12 +322,39 @@
                 xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
             },
             success: function (response) {
-                
+                //document.getElementById('Imagen').innerHTML = response
+                //alert(response)
+                localStorage.setItem('Imagen', response[0]);
+                window.location = "{{url_for('reportes')}}";
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert('Disculpe, existió un problema intetelo nuevamente');
             },
         });
+        } if(selectAnalisis ==2){
+            $.ajax({
+            url: "/AnalisisReporte2",
+            type: 'POST',
+            data: {
+                columnas: JSON.stringify(arr),
+                filename: localStorage.getItem('Archivo'),
+                pais: selectPais
+            },
+            beforeSend: function (xhr, settings) {
+                xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+            },
+            success: function (response) {
+                //document.getElementById('Imagen').innerHTML = response
+                //alert(response)
+                localStorage.setItem('Imagen', response[0]);
+                window.location = "{{url_for('reportes')}}";
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Disculpe, existió un problema intetelo nuevamente');
+            },
+        });
+        }
+        
     }
 
 </script>
