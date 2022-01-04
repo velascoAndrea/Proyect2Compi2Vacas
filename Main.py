@@ -9,9 +9,7 @@ from analizararchivo import AnalizarArchivo
 from reportes import Reportes
 import json as json
 import numpy as np
-from pylatex import Document, Section, Subsection, Command
-from pylatex.utils import italic, NoEscape
-
+from pandas.io.json import json_normalize
 
 UPLOAD_FOLDER = './archs/'
 ALLOWED_EXTENSIONS = set(['csv','xls','xlsx','json'])
@@ -70,6 +68,8 @@ def ImpresionConsola():
         if(extension[len(extension)-1] =='xls' or extension[len(extension)-1] =='xlsx'):
             Data = Analisis.LeerArchivoExcel("./archs/"+nombreArchivo)
 
+        if(extension[len(extension)-1] =='json'):
+            Data = Analisis.LeerArchivoJson("./archs/"+nombreArchivo)
         return jsonify(Data.columns.values.tolist())
 
 
@@ -88,7 +88,9 @@ def Reporte1EnvioParametros():
 
         if(extension[len(extension)-1] =='xls' or extension[len(extension)-1] =='xlsx'):
             Data = Analisis.LeerArchivoExcel("./archs/"+nombreArchivo)
-             
+
+        if(extension[len(extension)-1] =='json'):
+            Data = Analisis.LeerArchivoJson("./archs/"+nombreArchivo)     
         #en la posicion 0 esta el Pais
             #print(Data[parametros[0]].dropna().drop_duplicates().values)
 
@@ -135,10 +137,13 @@ def AnalisisReporte2():
         #print(parametros)
         nombreArchivo = envio['filename']
         pais = envio['pais']
+        fecha = envio['fecha']
+        print(fecha,'FEHCAAAAAA')
         extension = nombreArchivo.split('.')
     #if(extension[len(extension)-1] =='csv'):
-        AnalisisRep2 = rep.AnalizarRep2("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2])
-    return jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep2[0]),AnalisisRep2[1],AnalisisRep2[0],AnalisisRep2[3],AnalisisRep2[5],AnalisisRep2[6])
+        AnalisisRep2 = rep.AnalizarRep2("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2],fecha)
+        prediccion = AnalisisRep2[7].tolist()
+    return jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep2[0]),AnalisisRep2[1],AnalisisRep2[0],AnalisisRep2[3],AnalisisRep2[5],AnalisisRep2[6],prediccion)
 
 
 @app.route('/AnalisisReporte4',methods = ['POST', 'GET'])
@@ -243,7 +248,23 @@ def AnalisisReporte10():
         extension = nombreArchivo.split('.')
     #if(extension[len(extension)-1] =='csv'):
         AnalisisRep10 = rep.AnalizarRep10("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2],pais2)
-    return jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep10[0]),AnalisisRep10[1],AnalisisRep10[0],AnalisisRep10[3],AnalisisRep10[5],AnalisisRep10[6])
+    return jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep10[0]),AnalisisRep10[1],AnalisisRep10[0],AnalisisRep10[3],AnalisisRep10[5],AnalisisRep10[6],AnalisisRep10[7],AnalisisRep10[8])
+
+
+@app.route('/AnalisisReporte12',methods = ['POST', 'GET'])
+def AnalisisReporte12():
+    print("Prediccion de Mortalidad en un pais")
+    if request.method == 'POST':
+        envio = request.form
+        parametros = json.loads(envio['columnas'])
+        #print(parametros)
+        nombreArchivo = envio['filename']
+        pais = envio['pais']
+        pais2 = envio['pais2']
+        extension = nombreArchivo.split('.')
+    #if(extension[len(extension)-1] =='csv'):
+        AnalisisRep12 = rep.AnalizarRep12("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2],pais2)
+    return jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep12[0]),AnalisisRep12[1],AnalisisRep12[0],AnalisisRep12[3],AnalisisRep12[5],AnalisisRep12[6],AnalisisRep12[7],AnalisisRep12[8])
 
 
 

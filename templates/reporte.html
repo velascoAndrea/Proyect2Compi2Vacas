@@ -74,7 +74,7 @@
         pdf.text("Casos Confirmados vs Fecha",35,185)
         pdf.setFontType("italic");
         pdf.setFontSize(8);
-        pdf.text(localStorage.getItem('ecuacion').toString(), 5, 195);
+        pdf.text(localStorage.getItem('ecuacion').toString(), 25, 195);
         pdf.setFontType("normal");
         pdf.setFontSize(10);
         pdf.text("Para la Prediccion de datos utilizamos un Polinomio de grado 2",10,200)
@@ -83,7 +83,10 @@
         pdf.text("-Los Puntos azules son los datos de la muestra",10,212)
         pdf.text("DISCUCION DE RESULTADOS", 35, 220);
         pdf.text(localStorage.getItem('descripcion').toString(),10,230)
-
+        pdf.text("Prediccion", 35, 250);
+        pdf.text("y(" +localStorage.getItem('fechaPrediccion').toString()+")" +" = "+localStorage.getItem('prediccion').toString() , 35, 255);
+        pdf.text("El parametro x se pasa como un ordinal gregoriano proleptico",10,262)
+        pdf.text("En terminos simples el recuento de dias desde la fecha 01/01/01",10,266)
         pdf.save("reporte2Prediccion");
         document.getElementById('Descripcion').innerHTML = localStorage.getItem('descripcion').toString() 
         +"\n" + "-La linea negra representa la Prediccion" 
@@ -122,7 +125,7 @@
         pdf.text("DISCUCION DE RESULTADOS", 35, 220);
         pdf.text(localStorage.getItem('descripcion').toString(),10,230)
 
-        pdf.save("reporte2PrediccionPais");
+        pdf.save("reporte5PrediccionMortalidad");
         document.getElementById('Descripcion').innerHTML = localStorage.getItem('descripcion').toString() 
         +"\n" + "-La linea negra representa la Prediccion" 
         +"\n" +"-Los Puntos verdes son los datos de Entrenamiento"
@@ -160,7 +163,7 @@
         pdf.text("DISCUCION DE RESULTADOS", 35, 220);
         pdf.text(localStorage.getItem('descripcion').toString(),10,230)
 
-        pdf.save("reporte2PrediccionDepartamento");
+        pdf.save("reporte4PrediccionDepartamento");
         document.getElementById('Descripcion').innerHTML = localStorage.getItem('descripcion').toString() 
         +"\n" + "-La linea negra representa la Prediccion" 
         +"\n" +"-Los Puntos verdes son los datos de Entrenamiento"
@@ -186,7 +189,7 @@
         var imgData = 'data:image/png;base64,'+ localStorage.getItem('imgbase64').toString();
         pdf.addImage(imgData, 'png', 1, 88, 115 , 90);
         pdf.text("Figura 1 Grafica que modela la Tendencia COVID 19 ", 20, 180);
-        pdf.text("Casos Confirmados vs Fecha",35,185)
+        pdf.text("Vacunados vs Fecha",35,185)
         pdf.setFontType("italic");
         pdf.setFontSize(8);
         pdf.text(localStorage.getItem('ecuacion').toString(), 5, 195);
@@ -217,7 +220,7 @@
         pdf.text("RESULTADOS", 48, 85);
         var imgData = 'data:image/png;base64,'+ localStorage.getItem('imgbase64').toString();
         pdf.addImage(imgData, 'png', 1, 88, 115 , 90);
-        pdf.text("Figura 1 Grafica que modela la Tendencia COVID 19 ", 20, 180);
+        pdf.text("Figura 1 Grafica que modela la Tendencia casos confirmados COVID 19 ", 20, 180);
         pdf.text("Casos Confirmados vs Fecha",35,185)
         pdf.setFontType("italic");
         pdf.setFontSize(8);
@@ -228,8 +231,8 @@
         
         pdf.text("DISCUCION DE RESULTADOS", 35, 207);
         pdf.text(localStorage.getItem('descripcion').toString(),15,215)
+        pdf.save("reporte15TendenciaCasosConfirmados");
 
-        pdf.save("reporte9vacunacion");
         document.getElementById('Descripcion').innerHTML = localStorage.getItem('descripcion').toString()
     }else if (localStorage.getItem('reporte').toString() == 'reporte14') {
         pdf.setFontSize(24);
@@ -249,8 +252,8 @@
         pdf.text("RESULTADOS", 48, 85);
         var imgData = 'data:image/png;base64,'+ localStorage.getItem('imgbase64').toString();
         pdf.addImage(imgData, 'png', 1, 88, 115 , 90);
-        pdf.text("Figura 1 Grafica que modela la Tendencia COVID 19 ", 20, 180);
-        pdf.text("Casos Confirmados vs Fecha",35,185)
+        pdf.text("Figura 1 Grafica que modela muertes po COVID 19 ", 20, 180);
+        pdf.text("Muertes vs Fecha",35,185)
         pdf.setFontType("italic");
         pdf.setFontSize(8);
         pdf.text(localStorage.getItem('ecuacion').toString(), 5, 195);
@@ -261,7 +264,7 @@
         pdf.text("DISCUCION DE RESULTADOS", 35, 207);
         pdf.text(localStorage.getItem('descripcion').toString(),15,215)
 
-        pdf.save("reporte9vacunacion");
+        pdf.save("reporte15MuertesPorCovidRegion");
         document.getElementById('Descripcion').innerHTML = localStorage.getItem('descripcion').toString()
     }else if (localStorage.getItem('reporte').toString() == 'reporte6') {
         pdf.setFontSize(24);
@@ -281,7 +284,7 @@
         pdf.text("RESULTADOS", 48, 85);
         var imgData = 'data:image/png;base64,'+ localStorage.getItem('imgbase64').toString();
         pdf.addImage(imgData, 'png', 1, 88, 115 , 90);
-        pdf.text("Figura 1 Grafica que modela la Prediccion de Mortalidad COVID 19 ", 10, 180);
+        pdf.text("Figura 1 Grafica que modela el Analisis de Muertes COVID 19 ", 10, 180);
         pdf.text("Muertes vs Fecha",35,185)
         pdf.setFontType("italic");
         pdf.setFontSize(8);
@@ -294,8 +297,7 @@
         pdf.text("-Los Puntos azules son los datos de la muestra",10,212)
         pdf.text("DISCUCION DE RESULTADOS", 35, 220);
         pdf.text(localStorage.getItem('descripcion').toString(),10,230)
-
-        pdf.save("reporte2PrediccionPais");
+        pdf.save("reporte6AnalisisdeMuerte");
         document.getElementById('Descripcion').innerHTML = localStorage.getItem('descripcion').toString() 
         +"\n" + "-La linea negra representa la Prediccion" 
         +"\n" +"-Los Puntos verdes son los datos de Entrenamiento"
@@ -304,7 +306,7 @@
     } else if (localStorage.getItem('reporte').toString() == 'reporte10') {
         pdf.setFontSize(24);
         pdf.setFont("times");
-        pdf.text("Analisis Comparatico de Vacunacion por Covid-19 ", 20, 45);
+        pdf.text("Analisis Comparativo de Vacunacion por Covid-19 ", 20, 45);
         pdf.setFontSize(10);
         pdf.setFontType("italic");
         pdf.text("Universidad de San Carlos, Facultad de Ingeniería, Compilladores 2", 53, 55);
@@ -319,24 +321,84 @@
         pdf.text("RESULTADOS", 48, 85);
         var imgData = 'data:image/png;base64,'+ localStorage.getItem('imgbase64').toString();
         pdf.addImage(imgData, 'png', 1, 88, 115 , 90);
-        pdf.text("Figura 1 Grafica que modela la Prediccion de Mortalidad COVID 19 ", 10, 180);
-        pdf.text("Muertes vs Fecha",35,185)
+        pdf.text("Figura 1 Grafica que modela analisis comparativo COVID 19 ", 13, 180);
+        pdf.text("Vacunaciones vs Fecha",40,185)
+        pdf.text("MODELO 1", 49, 193);
         pdf.setFontType("italic");
         pdf.setFontSize(8);
-        pdf.text(localStorage.getItem('ecuacion').toString(), 5, 195);
+        pdf.text(localStorage.getItem('ecuacion').toString(), 5, 200);
         pdf.setFontType("normal");
         pdf.setFontSize(10);
-        pdf.text("Para la Prediccion de datos del primer pais utilizamos un Polinomio de grado 3",10,200)
-        pdf.text("-La linea negra representa la Prediccion",10,204)
-        pdf.text("-Los Puntos verdes son los datos de Entrenamiento",10,208)
-        pdf.text("-Los Puntos azules son los datos de la muestra",10,212)
-        pdf.text("DISCUCION DE RESULTADOS", 35, 220);
-        pdf.text(localStorage.getItem('descripcion').toString(),10,230)
+        pdf.text("Para la Prediccion de datos del primer pais utilizamos un Polinomio de grado 3",10,210)
+        pdf.text("-La linea Azul representa los datos de la muestra",10,215)
+        pdf.text("-La linea rosada representa el Modelo1",10,220)
+        pdf.text("MODELO 2", 49, 227);
+        pdf.setFontType("italic");
+        pdf.setFontSize(8);
+        pdf.text(localStorage.getItem('ecuacion2').toString(), 5, 234);
+        pdf.setFontSize(10);
+        pdf.setFontType("normal");
+
+        pdf.text("Para la Prediccion de datos del primer pais utilizamos un Polinomio de grado 3",10,240)
+        pdf.text("-La linea verde representa los datos de la muestra",10,244)
+        pdf.text("-La linea negra representa el Modelo1",10,248)
+
+        pdf.text("DISCUCION DE RESULTADOS", 35, 255);
+        pdf.text("MODELO 1", 49, 260);
+        pdf.text(localStorage.getItem('descripcion').toString(),10,265)
+        pdf.text("MODELO 2", 49, 275);
+        pdf.text(localStorage.getItem('descripcion2').toString(),10,280)
 
         pdf.save("reporte2PrediccionPais");
-        document.getElementById('Descripcion').innerHTML = localStorage.getItem('descripcion').toString() 
-        
-        
+        document.getElementById('Descripcion').innerHTML = "MODELO 1 "+localStorage.getItem('descripcion').toString() +"\n" +" MODELO 2 " +localStorage.getItem('descripcion2').toString()
+    } else if (localStorage.getItem('reporte').toString() == 'reporte12') {
+        pdf.setFontSize(24);
+        pdf.setFont("times");
+        pdf.text("Analisis Comparativo de Covid-19 ", 40, 45);
+        pdf.setFontSize(10);
+        pdf.setFontType("italic");
+        pdf.text("Universidad de San Carlos, Facultad de Ingeniería, Compilladores 2", 53, 55);
+        pdf.text("Carné 201503378, Escarleth Andrea Velasco Campos", 63, 60);
+
+        pdf.setFontType("bold");
+        pdf.text("Resumen-El siguiente reporte esta basado en los datos que se encuentran en el archivo proporcinado por el usuario se ajustaron", 10, 72)
+
+        pdf.text("los datos del Modelo para obtener la ecuacion que mejor modele los resultados", 10, 77)
+
+        pdf.setFontType("Normal");
+        pdf.text("RESULTADOS", 48, 85);
+        var imgData = 'data:image/png;base64,'+ localStorage.getItem('imgbase64').toString();
+        pdf.addImage(imgData, 'png', 1, 88, 115 , 90);
+        pdf.text("Figura 1 Grafica que modela analisis comparativo COVID 19 ", 13, 180);
+        pdf.text("Dato vs Fecha",40,185)
+        pdf.text("MODELO 1", 49, 193);
+        pdf.setFontType("italic");
+        pdf.setFontSize(8);
+        pdf.text(localStorage.getItem('ecuacion').toString(), 5, 200);
+        pdf.setFontType("normal");
+        pdf.setFontSize(10);
+        pdf.text("Para la Prediccion de datos del primer pais utilizamos un Polinomio de grado 3",10,210)
+        pdf.text("-La linea Azul representa los datos de la muestra",10,215)
+        pdf.text("-La linea rosada representa el Modelo1",10,220)
+        pdf.text("MODELO 2", 49, 227);
+        pdf.setFontType("italic");
+        pdf.setFontSize(8);
+        pdf.text(localStorage.getItem('ecuacion2').toString(), 5, 234);
+        pdf.setFontSize(10);
+        pdf.setFontType("normal");
+
+        pdf.text("Para la Prediccion de datos del primer pais utilizamos un Polinomio de grado 3",10,240)
+        pdf.text("-La linea verde representa los datos de la muestra",10,244)
+        pdf.text("-La linea negra representa el Modelo1",10,248)
+
+        pdf.text("DISCUCION DE RESULTADOS", 35, 255);
+        pdf.text("MODELO 1", 49, 260);
+        pdf.text(localStorage.getItem('descripcion').toString(),10,265)
+        pdf.text("MODELO 2", 49, 275);
+        pdf.text(localStorage.getItem('descripcion2').toString(),10,280)
+
+        pdf.save("reporte2PrediccionPais");
+        document.getElementById('Descripcion').innerHTML = "MODELO 1 "+localStorage.getItem('descripcion').toString() +"\n" +" MODELO 2 " +localStorage.getItem('descripcion2').toString()
     }
 
 
