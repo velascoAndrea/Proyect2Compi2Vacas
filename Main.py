@@ -223,6 +223,22 @@ def AnalisisReporte6():
     return jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep6[0]),AnalisisRep6[1],AnalisisRep6[0],AnalisisRep6[3],AnalisisRep6[5],AnalisisRep6[6])
 
 
+@app.route('/AnalisisReporte10',methods = ['POST', 'GET'])
+def AnalisisReporte10():
+    print("Prediccion de Mortalidad en un pais")
+    if request.method == 'POST':
+        envio = request.form
+        parametros = json.loads(envio['columnas'])
+        #print(parametros)
+        nombreArchivo = envio['filename']
+        pais = envio['pais']
+        pais2 = envio['pais2']
+        extension = nombreArchivo.split('.')
+    if(extension[len(extension)-1] =='csv'):
+        AnalisisRep10 = rep.AnalizarRep10("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2],pais2)
+    return jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep10[0]),AnalisisRep10[1],AnalisisRep10[0],AnalisisRep10[3],AnalisisRep10[5],AnalisisRep10[6])
+
+
 
 
 #-------------------------------------------------------------------------------------------

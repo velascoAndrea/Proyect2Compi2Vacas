@@ -13,22 +13,22 @@
     <div class="col-12">
         <select class="form-select" aria-label="Default select example" id="selectAnalisis">
             <option selected disabled>Escoja..</option>
-            <option value="1">Tendencia de la infección por Covid-19 en un País.</option>
-            <option value="2">Predicción de Infectados en un País.</option>
+            <option value="1">Tendencia de la infección por Covid-19 en un País.</option><!---->
+            <option value="2">Predicción de Infectados en un País.</option> <!---->
             <option value="3">Indice de Progresión de la pandemia.</option>
-            <option value="4">Predicción de mortalidad por COVID en un Departamento.</option>
-            <option value="5">Predicción de mortalidad por COVID en un País.</option>
-            <option value="6">Análisis del número de muertes por coronavirus en un País</option>
+            <option value="4">Predicción de mortalidad por COVID en un Departamento.</option> <!---->
+            <option value="5">Predicción de mortalidad por COVID en un País.</option> <!---->
+            <option value="6">Análisis del número de muertes por coronavirus en un País</option><!---->
             <option value="7">Tendencia del número de infectados por día de un País</option>
             <option value="8">Predicción de casos de un país para un año</option>
-            <option value="9">Tendencia de la vacunación de en un País.</option>
+            <option value="9">Tendencia de la vacunación de en un País.</option> <!---->
             <option value="10">Ánalisis Comparativo de Vacunaciópn entre 2 paises</option>
             <option value="11">Porcentaje de hombres infectados por covid-19 en un País desde el primer caso activo
             </option>
             <option value="12">Ánalisis Comparativo entres 2 o más paises o continentes.</option>
             <option value="13">Muertes promedio por casos confirmados y edad de covid 19 en un País</option>
-            <option value="14">Muertes según region de un país - Covid 19</option>
-            <option value="15">Tendencia de casos confirmados de Coronavirus en un departamento de un País</option>
+            <option value="14">Muertes según region de un país - Covid 19</option> <!---->
+            <option value="15">Tendencia de casos confirmados de Coronavirus en un departamento de un País</option> <!---->
             <option value="16">Porcentaje de muertes frente al total de casos en un país, región o continente</option>
             <option value="17">Tasa de comportamiento de casos activos en relación al número de muertes en un
                 continente.</option>
@@ -188,7 +188,24 @@
             </tr>
         </tbody>
     </table>
-</div>   
+</div>
+
+
+<div class="col-xl-6 col-md-6 col-sm-12" id="tabla8visibiidad" style="display: none;">
+    <table id="tabla8" class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Paises</th>
+                <th scope="col">Vacunas</th>
+                <th scope="col">Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id="filatabla8">
+            </tr>
+        </tbody>
+    </table>
+</div>
 
 
 
@@ -219,7 +236,13 @@
     <div class="col-xl-6 col-md col-sm-12">
         
         <select name="cmppaises" class="form-select" id="selectPaises">
-            <option selected disabled hidden>Seleccione un Pais...</option>
+            <option selected disabled hidden>Seleccione...</option>
+        </select>
+    </div>
+    <div class="col-xl-6 col-md col-sm-12" style="display: none;" id="listaPaises2">
+        
+        <select name="cmppaises2" class="form-select" id="selectPaises2">
+            <option selected disabled hidden>Seleccione...</option>
         </select>
     </div>
     </div>
@@ -260,6 +283,7 @@
         document.getElementById("tabla5visibiidad").style.display = 'none'
         document.getElementById("tabla6visibiidad").style.display = 'none'
         document.getElementById("tabla7visibiidad").style.display = 'none'
+        document.getElementById("tabla8visibiidad").style.display = 'none'
         //localStorage.removeItem('Imagen');
 
         var cur_value = $(this).val();
@@ -402,6 +426,29 @@
 
             })
         }
+        else if (cur_value == 10) {
+            //Prediccion de Mortalidad en un Pais
+            var colum = getColumnas().then(columnas => {
+                document.getElementById("tabla8visibiidad").style.display = 'block'
+                var Table = document.getElementById("tabla1body");
+                Table.innerHTML = "";
+                var Table2 =  document.getElementById("filatabla8");
+                Table2.innerHTML = ""; 
+
+                for (var i = 0; i < columnas.length; i++) {
+                    //$('#tabla1 tr:last').after(`<tr id="${columnas[i]}"><td>${columnas[i]}<input name="device" type="checkbox"></td></tr>`);
+                    //Aqui agrego los campos de la tabla Leida
+                    var input = document.createElement("input");
+                    input.type = "checkbox";
+                    input.name = "device"
+                    input.addEventListener("click", llamarOnClick, false)
+                    $("#tabla1").find('tbody').append(`<tr><td id="${columnas[i]}">${columnas[i]}</td></tr>`);
+                    var parent = document.getElementById(columnas[i]);
+                    parent.appendChild(input)
+                }
+
+            })
+        }
 
     });
 
@@ -439,6 +486,8 @@
                 var tr = $(this).parents("td").appendTo("#tabla6 tbody tr:last");
             }if($("#selectAnalisis").val() ==14){
                 var tr = $(this).parents("td").appendTo("#tabla7 tbody tr:last");
+            }if($("#selectAnalisis").val() ==10){
+                var tr = $(this).parents("td").appendTo("#tabla8 tbody tr:last");
             }
             console.log("Entro")
         } else {
@@ -535,6 +584,56 @@
             },
         });
         }//Primer reporte, segunfo
+        else if(selectAnalisis == 10){
+            var cells = Array.prototype.slice.call(document.getElementById("tabla8").getElementsByTagName("td"));
+            
+        for (var i in cells) {
+            console.log(cells[i].innerText);
+            arr.push(cells[i].innerText)
+        }
+        $.ajax({
+            url: "/Reporte1EnvioParametros",
+            type: 'POST',
+            data: {
+                columnas: JSON.stringify(arr),
+                filename: localStorage.getItem('Archivo')
+            },
+            beforeSend: function (xhr, settings) {
+                xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+            },
+            success: function (response) {
+                //alert("Paises Cargados")
+                var selectPaies = document.getElementsByName('cmppaises')[0];
+                selectPaies.innerHTML = "";
+
+                var selectPaies2 = document.getElementsByName('cmppaises2')[0];
+                selectPaies2.innerHTML = "";
+                //Aqui es donde se muestra toda la parte de paises y la confirmacion para analizar
+                document.getElementById("ListaPaisesReporte1").style.display = 'block'
+                document.getElementById("listaPaises2").style.display = 'block'
+                listaPaises2
+                columnas = response
+                //console.log(columnas)
+                var select = document.getElementsByName('cmppaises')[0];
+                var select2 = document.getElementsByName('cmppaises2')[0];
+                for (value in columnas) {
+                    var option = document.createElement("option");
+                    option.text = columnas[value];
+                    option.value = columnas[value];
+                    select.add(option);
+                }
+                for (value in columnas) {
+                    var option = document.createElement("option");
+                    option.text = columnas[value];
+                    option.value = columnas[value];
+                    select2.add(option);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Disculpe, existió un problema intetelo nuevamente');
+            },
+        });
+        }
       
         
     }
@@ -745,6 +844,35 @@
                 columnas: JSON.stringify(arr),
                 filename: localStorage.getItem('Archivo'),
                 pais: selectPais
+            },
+            beforeSend: function (xhr, settings) {
+                xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+            },
+            success: function (response) {
+                //document.getElementById('Imagen').innerHTML = response
+                //alert(response)
+                localStorage.setItem('Imagen', response[0]);
+                localStorage.setItem('reporte', response[1]);
+                localStorage.setItem('imgbase64', response[2]);
+                localStorage.setItem('pais', response[3]);
+                localStorage.setItem('ecuacion', response[4]);
+                localStorage.setItem('descripcion', response[5]);
+                window.location = "{{url_for('reportes')}}";
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Disculpe, existió un problema intetelo nuevamente');
+            },
+        });
+        }
+        else if(selectAnalisis ==10){
+            $.ajax({
+            url: "/AnalisisReporte10",
+            type: 'POST',
+            data: {
+                columnas: JSON.stringify(arr),
+                filename: localStorage.getItem('Archivo'),
+                pais: selectPais,
+                pais2: $("#selectPaises2").val()
             },
             beforeSend: function (xhr, settings) {
                 xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
