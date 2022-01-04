@@ -19,6 +19,17 @@ Aspectos Tecnicos
 - ingresar el comando export FLASK_APP=Main
 - Ingresar el comando flask run
 
+## Despliegue en Heroku
+- Instalar heroku-cli
+- Loguear en heroku heroku login
+- crear archivo requirement.txt donde iran todas las librerias que instalemos en nuestro entorno
+- crear archivo ProcFile que identificara que archivo levanta la app
+- instalar guinivorn (pip install guinicorn)
+- crear repositorio git (git add ., git commit -m "first-commit")
+- crear app heroku (heroku create nombreproyecto)
+- conecta con heroku (heroku git:remote nombreproyecto)
+- insertar git push heroku master
+
 ![instalacion](./images/images/terminal1.png)
 
 ## Carga de Archivo al Servidor
