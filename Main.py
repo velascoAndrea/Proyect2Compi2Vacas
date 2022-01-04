@@ -48,9 +48,10 @@ def upload_file():
       archivonuevo = filename
 
       if(f.content_type=="text/csv"):
-        Data = Analisis.LeerArchivo("./archs/"+archivonuevo)
+        pass
+        #Data = Analisis.LeerArchivo("./archs/"+archivonuevo)
 
-      return jsonify(Data.to_string(),filename)  #redirect(url_for('home'))
+      return jsonify("Data",filename)  #redirect(url_for('home'))
 		
 
 
