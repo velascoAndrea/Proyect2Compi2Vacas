@@ -9,7 +9,8 @@ from analizararchivo import AnalizarArchivo
 from reportes import Reportes
 import json as json
 import numpy as np
-
+from pylatex import Document, Section, Subsection, Command
+from pylatex.utils import italic, NoEscape
 
 
 UPLOAD_FOLDER = './archs/'
@@ -109,6 +110,9 @@ def AnalisisReporte1():
         AnalisisRep1 = rep.AnalizarRep1("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2])
         #print(AnalisisRep1[1],"RETORNO IMAGen")
         an = '<img src=\'data:image/png;base64,{}\'>'.format(AnalisisRep1[0])
+
+      
+
     return  jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep1[0]),AnalisisRep1[1])
 
 
@@ -132,8 +136,6 @@ archivonuevo = "" #nombre del Archivo Leido
 Analisis = AnalizarArchivo()
 rep = Reportes()
 Data = None #DataFramedeLosDatos 
-
-
 
 #----------------------------------------------------------------------------------------------------
 if __name__ == '__main__':

@@ -165,7 +165,13 @@ def  FuncPoli(x,y,pais,gradoAsi):
     tmpfile = BytesIO()
     fig.savefig(tmpfile, format='png')
     encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
-    return [encoded, pais, rmse, rmse2]
+    print("y = x*",model.coef_,' +',model.intercept_)
+    ecuacion = "y = x*",model.coef_,' +',model.intercept_
+    descripcion = ""
+    if(r2<=1 and r2>=0.9):
+        descripcion = "ya que r2 se encuentra en un rango entre 0.9 y 1 quiere decir que el modelo se ajusta al modelo de datos ya que su varianza es minima"
+
+    return [encoded, "reporte1" ,pais, rmse, r2,ecuacion]
 
 
 def  FuncPoliPrediccion(x,y,pais,gradoAsi):
@@ -242,7 +248,7 @@ def  FuncPoliPrediccion(x,y,pais,gradoAsi):
     tmpfile = BytesIO()
     fig.savefig(tmpfile, format='png')
     encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
-    return [encoded, pais, rmse, rmse2]    
+    return [encoded,'Reporte2',pais, rmse2, r22,]    
 
 
 
