@@ -167,7 +167,7 @@
         +"\n" + "-Los Puntos azules son los datos de la muestra"
         
     }
-    if (localStorage.getItem('reporte').toString() == 'reporte9') {
+    else if (localStorage.getItem('reporte').toString() == 'reporte9') {
         pdf.setFontSize(24);
         pdf.setFont("times");
         pdf.text("Tendencia de Vacunacion por Covid-19 ", 35, 45);
@@ -199,6 +199,108 @@
 
         pdf.save("reporte9vacunacion");
         document.getElementById('Descripcion').innerHTML = localStorage.getItem('descripcion').toString()
+    }else if (localStorage.getItem('reporte').toString() == 'reporte15') {
+        pdf.setFontSize(24);
+        pdf.setFont("times");
+        pdf.text("Tendencia de Casos Confirmados por Covid-19 ", 15, 45);
+        pdf.setFontSize(10);
+        pdf.setFontType("italic");
+        pdf.text("Universidad de San Carlos, Facultad de Ingeniería, Compilladores 2", 53, 55);
+        pdf.text("Carné 201503378, Escarleth Andrea Velasco Campos", 63, 60);
+
+        pdf.setFontType("bold");
+        pdf.text("Resumen-El siguiente reporte esta basado en los datos que se encuentran en el archivo proporcinado por el usuario se ajustaron", 10, 72)
+
+        pdf.text("los datos del Modelo para obtener la ecuacion que mejor modele los resultados", 10, 77)
+
+        pdf.setFontType("Normal");
+        pdf.text("RESULTADOS", 48, 85);
+        var imgData = 'data:image/png;base64,'+ localStorage.getItem('imgbase64').toString();
+        pdf.addImage(imgData, 'png', 1, 88, 115 , 90);
+        pdf.text("Figura 1 Grafica que modela la Tendencia COVID 19 ", 20, 180);
+        pdf.text("Casos Confirmados vs Fecha",35,185)
+        pdf.setFontType("italic");
+        pdf.setFontSize(8);
+        pdf.text(localStorage.getItem('ecuacion').toString(), 5, 195);
+        pdf.setFontType("normal");
+        pdf.setFontSize(10);
+        pdf.text("Para la tendencia de datos utilizamos un Polinomio de grado 3",20,200)
+        
+        pdf.text("DISCUCION DE RESULTADOS", 35, 207);
+        pdf.text(localStorage.getItem('descripcion').toString(),15,215)
+
+        pdf.save("reporte9vacunacion");
+        document.getElementById('Descripcion').innerHTML = localStorage.getItem('descripcion').toString()
+    }else if (localStorage.getItem('reporte').toString() == 'reporte14') {
+        pdf.setFontSize(24);
+        pdf.setFont("times");
+        pdf.text("Muertes por Covid-19 Region", 50, 45);
+        pdf.setFontSize(10);
+        pdf.setFontType("italic");
+        pdf.text("Universidad de San Carlos, Facultad de Ingeniería, Compilladores 2", 53, 55);
+        pdf.text("Carné 201503378, Escarleth Andrea Velasco Campos", 63, 60);
+
+        pdf.setFontType("bold");
+        pdf.text("Resumen-El siguiente reporte esta basado en los datos que se encuentran en el archivo proporcinado por el usuario se ajustaron", 10, 72)
+
+        pdf.text("los datos del Modelo para obtener la ecuacion que mejor modele los resultados", 10, 77)
+
+        pdf.setFontType("Normal");
+        pdf.text("RESULTADOS", 48, 85);
+        var imgData = 'data:image/png;base64,'+ localStorage.getItem('imgbase64').toString();
+        pdf.addImage(imgData, 'png', 1, 88, 115 , 90);
+        pdf.text("Figura 1 Grafica que modela la Tendencia COVID 19 ", 20, 180);
+        pdf.text("Casos Confirmados vs Fecha",35,185)
+        pdf.setFontType("italic");
+        pdf.setFontSize(8);
+        pdf.text(localStorage.getItem('ecuacion').toString(), 5, 195);
+        pdf.setFontType("normal");
+        pdf.setFontSize(10);
+        pdf.text("Para la tendencia de datos utilizamos un Polinomio de grado 3",20,200)
+        
+        pdf.text("DISCUCION DE RESULTADOS", 35, 207);
+        pdf.text(localStorage.getItem('descripcion').toString(),15,215)
+
+        pdf.save("reporte9vacunacion");
+        document.getElementById('Descripcion').innerHTML = localStorage.getItem('descripcion').toString()
+    }else if (localStorage.getItem('reporte').toString() == 'reporte6') {
+        pdf.setFontSize(24);
+        pdf.setFont("times");
+        pdf.text("Analisis de Muertes por Covid-19 ", 45, 45);
+        pdf.setFontSize(10);
+        pdf.setFontType("italic");
+        pdf.text("Universidad de San Carlos, Facultad de Ingeniería, Compilladores 2", 53, 55);
+        pdf.text("Carné 201503378, Escarleth Andrea Velasco Campos", 63, 60);
+
+        pdf.setFontType("bold");
+        pdf.text("Resumen-El siguiente reporte esta basado en los datos que se encuentran en el archivo proporcinado por el usuario se ajustaron", 10, 72)
+
+        pdf.text("los datos del Modelo para obtener la ecuacion que mejor modele los resultados", 10, 77)
+
+        pdf.setFontType("Normal");
+        pdf.text("RESULTADOS", 48, 85);
+        var imgData = 'data:image/png;base64,'+ localStorage.getItem('imgbase64').toString();
+        pdf.addImage(imgData, 'png', 1, 88, 115 , 90);
+        pdf.text("Figura 1 Grafica que modela la Prediccion de Mortalidad COVID 19 ", 10, 180);
+        pdf.text("Muertes vs Fecha",35,185)
+        pdf.setFontType("italic");
+        pdf.setFontSize(8);
+        pdf.text(localStorage.getItem('ecuacion').toString(), 5, 195);
+        pdf.setFontType("normal");
+        pdf.setFontSize(10);
+        pdf.text("Para la Prediccion de datos utilizamos un Polinomio de grado 3",10,200)
+        pdf.text("-La linea negra representa la Prediccion",10,204)
+        pdf.text("-Los Puntos verdes son los datos de Entrenamiento",10,208)
+        pdf.text("-Los Puntos azules son los datos de la muestra",10,212)
+        pdf.text("DISCUCION DE RESULTADOS", 35, 220);
+        pdf.text(localStorage.getItem('descripcion').toString(),10,230)
+
+        pdf.save("reporte2PrediccionPais");
+        document.getElementById('Descripcion').innerHTML = localStorage.getItem('descripcion').toString() 
+        +"\n" + "-La linea negra representa la Prediccion" 
+        +"\n" +"-Los Puntos verdes son los datos de Entrenamiento"
+        +"\n" + "-Los Puntos azules son los datos de la muestra"
+        
     }
 
 

@@ -27,7 +27,7 @@
             </option>
             <option value="12">Ánalisis Comparativo entres 2 o más paises o continentes.</option>
             <option value="13">Muertes promedio por casos confirmados y edad de covid 19 en un País</option>
-            <option value="14">Muertes según regiones de un país - Covid 19</option>
+            <option value="14">Muertes según region de un país - Covid 19</option>
             <option value="15">Tendencia de casos confirmados de Coronavirus en un departamento de un País</option>
             <option value="16">Porcentaje de muertes frente al total de casos en un país, región o continente</option>
             <option value="17">Tasa de comportamiento de casos activos en relación al número de muertes en un
@@ -128,7 +128,7 @@
     <table id="tabla4" class="table table-striped">
         <thead>
             <tr>
-                <th scope="col">departamento</th>
+                <th scope="col">Departamento</th>
                 <th scope="col">Numero de muertes</th>
                 <th scope="col">Fecha</th>
             </tr>
@@ -146,7 +146,7 @@
         <thead>
             <tr>
                 <th scope="col">Pais</th>
-                <th scope="col">Numero de vacundos</th>
+                <th scope="col">Numero de vacunados</th>
                 <th scope="col">Fecha</th>
             </tr>
         </thead>
@@ -156,6 +156,41 @@
         </tbody>
     </table>
 </div>   
+
+<div class="col-xl-6 col-md-6 col-sm-12" id="tabla6visibiidad" style="display: none;">
+    <table id="tabla6" class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Departamento</th>
+                <th scope="col">Casos Confirmados</th>
+                <th scope="col">Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id="filatabla6">
+            </tr>
+        </tbody>
+    </table>
+</div>   
+
+
+<div class="col-xl-6 col-md-6 col-sm-12" id="tabla7visibiidad" style="display: none;">
+    <table id="tabla7" class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Region</th>
+                <th scope="col">Numero de Muertes</th>
+                <th scope="col">Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id="filatabla7">
+            </tr>
+        </tbody>
+    </table>
+</div>   
+
+
 
 </div>
 
@@ -223,6 +258,8 @@
         document.getElementById("tabla3visibiidad").style.display = 'none'
         document.getElementById("tabla4visibiidad").style.display = 'none'
         document.getElementById("tabla5visibiidad").style.display = 'none'
+        document.getElementById("tabla6visibiidad").style.display = 'none'
+        document.getElementById("tabla7visibiidad").style.display = 'none'
         //localStorage.removeItem('Imagen');
 
         var cur_value = $(this).val();
@@ -250,7 +287,7 @@
             })
             //console.log(columnas);
         }//fin de los primeros dos reportes
-        else if (cur_value == 5) {
+        else if (cur_value == 5 || cur_value == 6) {
             //Prediccion de Mortalidad en un Pais
             var colum = getColumnas().then(columnas => {
                 document.getElementById("tabla3visibiidad").style.display = 'block'
@@ -319,6 +356,51 @@
                 }
 
             })
+        }else if (cur_value == 15) {
+            //Prediccion de Mortalidad en un Pais
+            var colum = getColumnas().then(columnas => {
+                document.getElementById("tabla6visibiidad").style.display = 'block'
+                var Table = document.getElementById("tabla1body");
+                Table.innerHTML = "";
+                var Table2 =  document.getElementById("filatabla6");
+                Table2.innerHTML = ""; 
+
+                for (var i = 0; i < columnas.length; i++) {
+                    //$('#tabla1 tr:last').after(`<tr id="${columnas[i]}"><td>${columnas[i]}<input name="device" type="checkbox"></td></tr>`);
+                    //Aqui agrego los campos de la tabla Leida
+                    var input = document.createElement("input");
+                    input.type = "checkbox";
+                    input.name = "device"
+                    input.addEventListener("click", llamarOnClick, false)
+                    $("#tabla1").find('tbody').append(`<tr><td id="${columnas[i]}">${columnas[i]}</td></tr>`);
+                    var parent = document.getElementById(columnas[i]);
+                    parent.appendChild(input)
+                }
+
+            })
+        }
+        else if (cur_value == 14) {
+            //Prediccion de Mortalidad en un Pais
+            var colum = getColumnas().then(columnas => {
+                document.getElementById("tabla7visibiidad").style.display = 'block'
+                var Table = document.getElementById("tabla1body");
+                Table.innerHTML = "";
+                var Table2 =  document.getElementById("filatabla7");
+                Table2.innerHTML = ""; 
+
+                for (var i = 0; i < columnas.length; i++) {
+                    //$('#tabla1 tr:last').after(`<tr id="${columnas[i]}"><td>${columnas[i]}<input name="device" type="checkbox"></td></tr>`);
+                    //Aqui agrego los campos de la tabla Leida
+                    var input = document.createElement("input");
+                    input.type = "checkbox";
+                    input.name = "device"
+                    input.addEventListener("click", llamarOnClick, false)
+                    $("#tabla1").find('tbody').append(`<tr><td id="${columnas[i]}">${columnas[i]}</td></tr>`);
+                    var parent = document.getElementById(columnas[i]);
+                    parent.appendChild(input)
+                }
+
+            })
         }
 
     });
@@ -347,12 +429,16 @@
             // movemos la columna a la tabla2
             if(($("#selectAnalisis").val() ==1 || $("#selectAnalisis").val() ==2 )){
                 var tr = $(this).parents("td").appendTo("#tabla2 tbody tr:last");
-            }else if($("#selectAnalisis").val() ==5){
+            }else if($("#selectAnalisis").val() ==5 ||$("#selectAnalisis").val() == 6){
                 var tr = $(this).parents("td").appendTo("#tabla3 tbody tr:last");
             }if($("#selectAnalisis").val() ==4){
                 var tr = $(this).parents("td").appendTo("#tabla4 tbody tr:last");
             }if($("#selectAnalisis").val() ==9){
                 var tr = $(this).parents("td").appendTo("#tabla5 tbody tr:last");
+            }if($("#selectAnalisis").val() ==15){
+                var tr = $(this).parents("td").appendTo("#tabla6 tbody tr:last");
+            }if($("#selectAnalisis").val() ==14){
+                var tr = $(this).parents("td").appendTo("#tabla7 tbody tr:last");
             }
             console.log("Entro")
         } else {
@@ -396,15 +482,22 @@
 
         var selectAnalisis = $("#selectAnalisis").val()
 
-        if(selectAnalisis == 1 || selectAnalisis == 2 || selectAnalisis == 4 || selectAnalisis == 5 || selectAnalisis == 9){
+        if(selectAnalisis == 1 || selectAnalisis == 2 || selectAnalisis == 4 || selectAnalisis == 5 || selectAnalisis == 9 || selectAnalisis == 15
+        || selectAnalisis == 14 || selectAnalisis == 6){
             var cells = Array.prototype.slice.call(document.getElementById("tabla2").getElementsByTagName("td"));
-            if(selectAnalisis == 5){
+            if(selectAnalisis == 5 || selectAnalisis == 6){
                 cells = Array.prototype.slice.call(document.getElementById("tabla3").getElementsByTagName("td"));
             }else if(selectAnalisis == 4){
                 cells = Array.prototype.slice.call(document.getElementById("tabla4").getElementsByTagName("td"));
             }
             else if(selectAnalisis == 9){
                 cells = Array.prototype.slice.call(document.getElementById("tabla5").getElementsByTagName("td"));
+            }
+            else if(selectAnalisis == 15){
+                cells = Array.prototype.slice.call(document.getElementById("tabla6").getElementsByTagName("td"));
+            }
+            else if(selectAnalisis == 14){
+                cells = Array.prototype.slice.call(document.getElementById("tabla7").getElementsByTagName("td"));
             }
         for (var i in cells) {
             console.log(cells[i].innerText);
@@ -563,6 +656,90 @@
         }else if(selectAnalisis ==9){
             $.ajax({
             url: "/AnalisisReporte9",
+            type: 'POST',
+            data: {
+                columnas: JSON.stringify(arr),
+                filename: localStorage.getItem('Archivo'),
+                pais: selectPais
+            },
+            beforeSend: function (xhr, settings) {
+                xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+            },
+            success: function (response) {
+                //document.getElementById('Imagen').innerHTML = response
+                //alert(response)
+                localStorage.setItem('Imagen', response[0]);
+                localStorage.setItem('reporte', response[1]);
+                localStorage.setItem('imgbase64', response[2]);
+                localStorage.setItem('pais', response[3]);
+                localStorage.setItem('ecuacion', response[4]);
+                localStorage.setItem('descripcion', response[5]);
+                window.location = "{{url_for('reportes')}}";
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Disculpe, existió un problema intetelo nuevamente');
+            },
+        });
+        }
+        else if(selectAnalisis ==15){
+            $.ajax({
+            url: "/AnalisisReporte15",
+            type: 'POST',
+            data: {
+                columnas: JSON.stringify(arr),
+                filename: localStorage.getItem('Archivo'),
+                pais: selectPais
+            },
+            beforeSend: function (xhr, settings) {
+                xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+            },
+            success: function (response) {
+                //document.getElementById('Imagen').innerHTML = response
+                //alert(response)
+                localStorage.setItem('Imagen', response[0]);
+                localStorage.setItem('reporte', response[1]);
+                localStorage.setItem('imgbase64', response[2]);
+                localStorage.setItem('pais', response[3]);
+                localStorage.setItem('ecuacion', response[4]);
+                localStorage.setItem('descripcion', response[5]);
+                window.location = "{{url_for('reportes')}}";
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Disculpe, existió un problema intetelo nuevamente');
+            },
+        });
+        }
+        else if(selectAnalisis ==14){
+            $.ajax({
+            url: "/AnalisisReporte14",
+            type: 'POST',
+            data: {
+                columnas: JSON.stringify(arr),
+                filename: localStorage.getItem('Archivo'),
+                pais: selectPais
+            },
+            beforeSend: function (xhr, settings) {
+                xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+            },
+            success: function (response) {
+                //document.getElementById('Imagen').innerHTML = response
+                //alert(response)
+                localStorage.setItem('Imagen', response[0]);
+                localStorage.setItem('reporte', response[1]);
+                localStorage.setItem('imgbase64', response[2]);
+                localStorage.setItem('pais', response[3]);
+                localStorage.setItem('ecuacion', response[4]);
+                localStorage.setItem('descripcion', response[5]);
+                window.location = "{{url_for('reportes')}}";
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Disculpe, existió un problema intetelo nuevamente');
+            },
+        });
+        }
+        else if(selectAnalisis ==6){
+            $.ajax({
+            url: "/AnalisisReporte6",
             type: 'POST',
             data: {
                 columnas: JSON.stringify(arr),

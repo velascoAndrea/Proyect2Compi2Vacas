@@ -179,6 +179,51 @@ def AnalisisReporte9():
     return jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep9[0]),AnalisisRep9[1],AnalisisRep9[0],AnalisisRep9[3],AnalisisRep9[5],AnalisisRep9[6])
 
 
+@app.route('/AnalisisReporte15',methods = ['POST', 'GET'])
+def AnalisisReporte15():
+    print("Prediccion de Mortalidad en un pais")
+    if request.method == 'POST':
+        envio = request.form
+        parametros = json.loads(envio['columnas'])
+        #print(parametros)
+        nombreArchivo = envio['filename']
+        pais = envio['pais']
+        extension = nombreArchivo.split('.')
+    if(extension[len(extension)-1] =='csv'):
+        AnalisisRep15 = rep.AnalizarRep15("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2])
+    return jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep15[0]),AnalisisRep15[1],AnalisisRep15[0],AnalisisRep15[3],AnalisisRep15[5],AnalisisRep15[6])
+
+@app.route('/AnalisisReporte14',methods = ['POST', 'GET'])
+def AnalisisReporte14():
+    print("Prediccion de Mortalidad en un pais")
+    if request.method == 'POST':
+        envio = request.form
+        parametros = json.loads(envio['columnas'])
+        #print(parametros)
+        nombreArchivo = envio['filename']
+        pais = envio['pais']
+        extension = nombreArchivo.split('.')
+    if(extension[len(extension)-1] =='csv'):
+        AnalisisRep14 = rep.AnalizarRep14("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2])
+    return jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep14[0]),AnalisisRep14[1],AnalisisRep14[0],AnalisisRep14[3],AnalisisRep14[5],AnalisisRep14[6])
+
+
+@app.route('/AnalisisReporte6',methods = ['POST', 'GET'])
+def AnalisisReporte6():
+    print("Prediccion de Mortalidad en un pais")
+    if request.method == 'POST':
+        envio = request.form
+        parametros = json.loads(envio['columnas'])
+        #print(parametros)
+        nombreArchivo = envio['filename']
+        pais = envio['pais']
+        extension = nombreArchivo.split('.')
+    if(extension[len(extension)-1] =='csv'):
+        AnalisisRep6 = rep.AnalizarRep6("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2])
+    return jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep6[0]),AnalisisRep6[1],AnalisisRep6[0],AnalisisRep6[3],AnalisisRep6[5],AnalisisRep6[6])
+
+
+
 
 #-------------------------------------------------------------------------------------------
 archivonuevo = "" #nombre del Archivo Leido
