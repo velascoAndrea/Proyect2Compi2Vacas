@@ -30,22 +30,12 @@
   </div>
 </form>
 
-<div id="div_carga">
-  <img id="cargador" src="../loading.gif"/>
-  </div>
+
 
 <script>
 
 // document.head.appendChild(generator.stylesAndScripts("https://cdn.jsdelivr.net/npm/latex.js@0.12.4/dist/"))
-$('#div_carga')
-			.hide()
-			.ajaxStart(function() {
-				$(this).show();
-			})
-			.ajaxStop(function() {
-				$(this).hide();
-			})
-		;
+
   var dataFrame = null;
   $("#leerArchivo").click(function (e) {
 
@@ -73,7 +63,7 @@ $('#div_carga')
         localStorage.setItem('Archivo', response[1]);
       },
       error: function (xhr, ajaxOptions, thrownError) {
-        alert('Disculpe, existió un problema intetelo nuevamente'+thrownError);
+        alert('Disculpe, existió un problema intetelo nuevamente '+thrownError);
       },
     });
   });
