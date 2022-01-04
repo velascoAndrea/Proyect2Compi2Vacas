@@ -20,24 +20,24 @@ La aplicación cuenta con 3 áreas:
   >* **Excel** : Archivos de Microsoft Excel (.xlsx, xls).
   >* **JSON** : Achivo json.
 
-![selecionar archivo](./images/inicio2.png)
+![selecionar archivo](./images/images/inicio2.png)
 
 > Una vez seleccionado el archivo de entrada debemos hacer clic en el botón **Subir**. Al realizar esto se mostrará el archivo cargado.
 
-![archivos cargados](./images/inicio3.png)
+![archivos cargados](./images/images/inicio3.png)
 
   * Seleccionamos el menú [Parametros](https://proyecto2compivacas.herokuapp.com/about)
 
 >En esta pantalla podemos seleccionar la prediccion deseada.
 
-![seleccion de prediccion](./images/param1.png)
+![seleccion de prediccion](./images/images/param1.png)
 
 >Una ves seleccionada la predicción, podemos mapear las distintas columnas necesarias para el analisis. Una vez hecho esto debemos hacer clic en el botón **Confirmar Parametrización**.
 
-![seleccion de columnas](./images/param2.png)
+![seleccion de columnas](./images/images/param2.png)
 
 >Por ultimo debemos seleccionar el continente, región, país, departamento, el cual se debe aplicar la predicción seleccionada. Una vez hecho esto debemos hacer clic en el botón **Analizar Parametros**.
 
-![seleccion de columnas](./images/param3.png)
+![seleccion de columnas](./images/images/param3.png)
 
   * Para ver los resultados debemos haci clic en el menú [Reportes](https://proyecto2compivacas.herokuapp.com/reportes)
