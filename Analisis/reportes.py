@@ -22,7 +22,15 @@ class Reportes():
 
     def AnalizarRep1(self,nombreArchivo,pais,columnaPais,dependiente,independiente):
 
-        dataFrame = pd.read_csv(nombreArchivo);
+        extension = nombreArchivo.split('.')
+        if(extension[len(extension)-1] =='csv'):
+            dataFrame = pd.read_csv(nombreArchivo)
+
+        if(extension[len(extension)-1] =='xls' or extension[len(extension)-1] =='xlsx'):
+            dataFrame = pd.read_excel(nombreArchivo)
+        
+
+
         is_country = dataFrame[columnaPais] == pais
         #print(is_country)
         dataFrameFiltrado = dataFrame[is_country]
@@ -58,7 +66,13 @@ class Reportes():
 
     def AnalizarRep2(self,nombreArchivo,pais,columnaPais,dependiente,independiente):
         
-        dataFrame = pd.read_csv(nombreArchivo);
+        extension = nombreArchivo.split('.')
+        if(extension[len(extension)-1] =='csv'):
+            dataFrame = pd.read_csv(nombreArchivo)
+
+        if(extension[len(extension)-1] =='xls' or extension[len(extension)-1] =='xlsx'):
+            dataFrame = pd.read_excel(nombreArchivo)
+        
         is_country = dataFrame[columnaPais] == pais
         #print(is_country)
         dataFrameFiltrado = dataFrame[is_country]
@@ -92,7 +106,13 @@ class Reportes():
 
     def AnalizarRep4(self,nombreArchivo,pais,columnaPais,dependiente,independiente):
         
-        dataFrame = pd.read_csv(nombreArchivo);
+        extension = nombreArchivo.split('.')
+        if(extension[len(extension)-1] =='csv'):
+            dataFrame = pd.read_csv(nombreArchivo)
+
+        if(extension[len(extension)-1] =='xls' or extension[len(extension)-1] =='xlsx'):
+            dataFrame = pd.read_excel(nombreArchivo)
+        
         is_country = dataFrame[columnaPais] == pais
         #print(is_country)
         dataFrameFiltrado = dataFrame[is_country]
@@ -129,7 +149,13 @@ class Reportes():
 
     def AnalizarRep5(self,nombreArchivo,pais,columnaPais,dependiente,independiente):
         
-        dataFrame = pd.read_csv(nombreArchivo);
+        extension = nombreArchivo.split('.')
+        if(extension[len(extension)-1] =='csv'):
+            dataFrame = pd.read_csv(nombreArchivo)
+
+        if(extension[len(extension)-1] =='xls' or extension[len(extension)-1] =='xlsx'):
+            dataFrame = pd.read_excel(nombreArchivo)
+        
         is_country = dataFrame[columnaPais] == pais
         #print(is_country)
         dataFrameFiltrado = dataFrame[is_country]
@@ -163,7 +189,13 @@ class Reportes():
 
     def AnalizarRep9(self,nombreArchivo,pais,columnaPais,dependiente,independiente):
         
-        dataFrame = pd.read_csv(nombreArchivo);
+        extension = nombreArchivo.split('.')
+        if(extension[len(extension)-1] =='csv'):
+            dataFrame = pd.read_csv(nombreArchivo)
+
+        if(extension[len(extension)-1] =='xls' or extension[len(extension)-1] =='xlsx'):
+            dataFrame = pd.read_excel(nombreArchivo)
+
         is_country = dataFrame[columnaPais] == pais
         #print(is_country)
         dataFrameFiltrado = dataFrame[is_country]
@@ -197,7 +229,13 @@ class Reportes():
 
     def AnalizarRep15(self,nombreArchivo,pais,columnaPais,dependiente,independiente):
         
-        dataFrame = pd.read_csv(nombreArchivo);
+        extension = nombreArchivo.split('.')
+        if(extension[len(extension)-1] =='csv'):
+            dataFrame = pd.read_csv(nombreArchivo)
+
+        if(extension[len(extension)-1] =='xls' or extension[len(extension)-1] =='xlsx'):
+            dataFrame = pd.read_excel(nombreArchivo)
+
         is_country = dataFrame[columnaPais] == pais
         #print(is_country)
         dataFrameFiltrado = dataFrame[is_country]
@@ -233,7 +271,12 @@ class Reportes():
 
     def AnalizarRep14(self,nombreArchivo,pais,columnaPais,dependiente,independiente):
         
-        dataFrame = pd.read_csv(nombreArchivo);
+        extension = nombreArchivo.split('.')
+        if(extension[len(extension)-1] =='csv'):
+            dataFrame = pd.read_csv(nombreArchivo)
+
+        if(extension[len(extension)-1] =='xls' or extension[len(extension)-1] =='xlsx'):
+            dataFrame = pd.read_excel(nombreArchivo)
         is_country = dataFrame[columnaPais] == pais
         #print(is_country)
         dataFrameFiltrado = dataFrame[is_country]
@@ -270,7 +313,13 @@ class Reportes():
 
     def AnalizarRep6(self,nombreArchivo,pais,columnaPais,dependiente,independiente):
         
-        dataFrame = pd.read_csv(nombreArchivo);
+        extension = nombreArchivo.split('.')
+        if(extension[len(extension)-1] =='csv'):
+            dataFrame = pd.read_csv(nombreArchivo)
+
+        if(extension[len(extension)-1] =='xls' or extension[len(extension)-1] =='xlsx'):
+            dataFrame = pd.read_excel(nombreArchivo)
+
         is_country = dataFrame[columnaPais] == pais
         #print(is_country)
         dataFrameFiltrado = dataFrame[is_country]
@@ -304,7 +353,13 @@ class Reportes():
 
     def AnalizarRep10(self,nombreArchivo,pais,columnaPais,dependiente,independiente,pais2):
     
-        dataFrame = pd.read_csv(nombreArchivo);
+        extension = nombreArchivo.split('.')
+        if(extension[len(extension)-1] =='csv'):
+            dataFrame = pd.read_csv(nombreArchivo)
+
+        if(extension[len(extension)-1] =='xls' or extension[len(extension)-1] =='xlsx'):
+            dataFrame = pd.read_excel(nombreArchivo)
+
         is_country = dataFrame[columnaPais] == pais
         
         dataFrameFiltrado = dataFrame[is_country]
@@ -329,7 +384,13 @@ class Reportes():
         
 
         #PAIS2
-        dataFrame2 = pd.read_csv(nombreArchivo);
+        
+        if(extension[len(extension)-1] =='csv'):
+            dataFrame2 = pd.read_csv(nombreArchivo)
+
+        if(extension[len(extension)-1] =='xls' or extension[len(extension)-1] =='xlsx'):
+            dataFrame2 = pd.read_excel(nombreArchivo)
+
         is_country2 = dataFrame2[columnaPais] == pais2
         dataFrameFiltrado2 = dataFrame2[is_country2]
         fechas2 = pd.to_datetime(dataFrameFiltrado2[independiente])
@@ -1114,7 +1175,7 @@ def  AnalisisMortalidadPais(x,y,pais,gradoAsi):
     plt.grid()
    
     titulo = 'Grado = {} RMSE = {} R2 = {}'.format(grado,round(rmse2,2),round(r22,2))
-    plt.title("Prediccion de Mortalidad en "+pais +"\n" + titulo, fontsize = 15)
+    plt.title("Analisis de Mortalidad en "+pais +"\n" + titulo, fontsize = 15)
     plt.xlabel("Fechas")
     plt.ylabel("Numero de muertes")
     #plt.show()

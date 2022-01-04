@@ -12,5 +12,9 @@ class AnalizarArchivo():
         dataFrame = pd.read_csv(nombreArchivo);
         return dataFrame
 
+    def LeerArchivoExcel(self,nombreArchivo):
+        dataFrame = pd.read_excel(nombreArchivo);
+        return dataFrame
+
 
         

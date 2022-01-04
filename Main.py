@@ -67,6 +67,8 @@ def ImpresionConsola():
         if(extension[len(extension)-1] =='csv'):
             Data = Analisis.LeerArchivo("./archs/"+nombreArchivo)
             #print(Data.columns.values.tolist())
+        if(extension[len(extension)-1] =='xls' or extension[len(extension)-1] =='xlsx'):
+            Data = Analisis.LeerArchivoExcel("./archs/"+nombreArchivo)
 
         return jsonify(Data.columns.values.tolist())
 
@@ -83,6 +85,10 @@ def Reporte1EnvioParametros():
 
         if(extension[len(extension)-1] =='csv'):
             Data = Analisis.LeerArchivo("./archs/"+nombreArchivo)
+
+        if(extension[len(extension)-1] =='xls' or extension[len(extension)-1] =='xlsx'):
+            Data = Analisis.LeerArchivoExcel("./archs/"+nombreArchivo)
+             
         #en la posicion 0 esta el Pais
             #print(Data[parametros[0]].dropna().drop_duplicates().values)
 
@@ -107,10 +113,11 @@ def AnalisisReporte1():
         nombreArchivo = envio['filename']
         pais = envio['pais']
         extension = nombreArchivo.split('.')
-    if(extension[len(extension)-1] =='csv'):
+    #if(extension[len(extension)-1] =='csv'):
         AnalisisRep1 = rep.AnalizarRep1("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2])
         #print(AnalisisRep1[1],"RETORNO IMAGen")
         an = '<img src=\'data:image/png;base64,{}\'>'.format(AnalisisRep1[0])
+
     #En la Posicion 0 va la imagen
     #En la Pocicion 1 el tipo de Reporte
     #En la Posicion 2 la imagen en base 64
@@ -129,7 +136,7 @@ def AnalisisReporte2():
         nombreArchivo = envio['filename']
         pais = envio['pais']
         extension = nombreArchivo.split('.')
-    if(extension[len(extension)-1] =='csv'):
+    #if(extension[len(extension)-1] =='csv'):
         AnalisisRep2 = rep.AnalizarRep2("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2])
     return jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep2[0]),AnalisisRep2[1],AnalisisRep2[0],AnalisisRep2[3],AnalisisRep2[5],AnalisisRep2[6])
 
@@ -144,7 +151,7 @@ def AnalisisReporte4():
         nombreArchivo = envio['filename']
         pais = envio['pais']
         extension = nombreArchivo.split('.')
-    if(extension[len(extension)-1] =='csv'):
+    #if(extension[len(extension)-1] =='csv'):
         AnalisisRep4 = rep.AnalizarRep4("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2])
     return jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep4[0]),AnalisisRep4[1],AnalisisRep4[0],AnalisisRep4[3],AnalisisRep4[5],AnalisisRep4[6])
 
@@ -160,7 +167,7 @@ def AnalisisReporte5():
         nombreArchivo = envio['filename']
         pais = envio['pais']
         extension = nombreArchivo.split('.')
-    if(extension[len(extension)-1] =='csv'):
+    #if(extension[len(extension)-1] =='csv'):
         AnalisisRep5 = rep.AnalizarRep5("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2])
     return jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep5[0]),AnalisisRep5[1],AnalisisRep5[0],AnalisisRep5[3],AnalisisRep5[5],AnalisisRep5[6])
 
@@ -174,7 +181,7 @@ def AnalisisReporte9():
         nombreArchivo = envio['filename']
         pais = envio['pais']
         extension = nombreArchivo.split('.')
-    if(extension[len(extension)-1] =='csv'):
+    #if(extension[len(extension)-1] =='csv'):
         AnalisisRep9 = rep.AnalizarRep9("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2])
     return jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep9[0]),AnalisisRep9[1],AnalisisRep9[0],AnalisisRep9[3],AnalisisRep9[5],AnalisisRep9[6])
 
@@ -189,7 +196,7 @@ def AnalisisReporte15():
         nombreArchivo = envio['filename']
         pais = envio['pais']
         extension = nombreArchivo.split('.')
-    if(extension[len(extension)-1] =='csv'):
+    #if(extension[len(extension)-1] =='csv'):
         AnalisisRep15 = rep.AnalizarRep15("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2])
     return jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep15[0]),AnalisisRep15[1],AnalisisRep15[0],AnalisisRep15[3],AnalisisRep15[5],AnalisisRep15[6])
 
@@ -203,7 +210,7 @@ def AnalisisReporte14():
         nombreArchivo = envio['filename']
         pais = envio['pais']
         extension = nombreArchivo.split('.')
-    if(extension[len(extension)-1] =='csv'):
+    #if(extension[len(extension)-1] =='csv'):
         AnalisisRep14 = rep.AnalizarRep14("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2])
     return jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep14[0]),AnalisisRep14[1],AnalisisRep14[0],AnalisisRep14[3],AnalisisRep14[5],AnalisisRep14[6])
 
@@ -218,7 +225,7 @@ def AnalisisReporte6():
         nombreArchivo = envio['filename']
         pais = envio['pais']
         extension = nombreArchivo.split('.')
-    if(extension[len(extension)-1] =='csv'):
+    #if(extension[len(extension)-1] =='csv'):
         AnalisisRep6 = rep.AnalizarRep6("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2])
     return jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep6[0]),AnalisisRep6[1],AnalisisRep6[0],AnalisisRep6[3],AnalisisRep6[5],AnalisisRep6[6])
 
@@ -234,7 +241,7 @@ def AnalisisReporte10():
         pais = envio['pais']
         pais2 = envio['pais2']
         extension = nombreArchivo.split('.')
-    if(extension[len(extension)-1] =='csv'):
+    #if(extension[len(extension)-1] =='csv'):
         AnalisisRep10 = rep.AnalizarRep10("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2],pais2)
     return jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep10[0]),AnalisisRep10[1],AnalisisRep10[0],AnalisisRep10[3],AnalisisRep10[5],AnalisisRep10[6])
 
