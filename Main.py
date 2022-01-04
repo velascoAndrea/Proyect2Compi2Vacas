@@ -111,10 +111,12 @@ def AnalisisReporte1():
         AnalisisRep1 = rep.AnalizarRep1("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2])
         #print(AnalisisRep1[1],"RETORNO IMAGen")
         an = '<img src=\'data:image/png;base64,{}\'>'.format(AnalisisRep1[0])
-
-      
-
-    return  jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep1[0]),AnalisisRep1[1])
+    #En la Posicion 0 va la imagen
+    #En la Pocicion 1 el tipo de Reporte
+    #En la Posicion 2 la imagen en base 64
+    #En la POsicion 3 el Pais
+    #En la Posicion 4 el R2
+    return  jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep1[0]),AnalisisRep1[1],AnalisisRep1[0],AnalisisRep1[3],AnalisisRep1[5],AnalisisRep1[6])
 
 
 @app.route('/AnalisisReporte2',methods = ['POST', 'GET'])
@@ -129,8 +131,22 @@ def AnalisisReporte2():
         extension = nombreArchivo.split('.')
     if(extension[len(extension)-1] =='csv'):
         AnalisisRep2 = rep.AnalizarRep2("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2])
-    return jsonify('<img src=\'data:image/png;base64,{}\'>'.format(AnalisisRep2[0]),AnalisisRep2[1])
+    return jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep2[0]),AnalisisRep2[1],AnalisisRep2[0],AnalisisRep2[3],AnalisisRep2[5],AnalisisRep2[6])
 
+
+@app.route('/AnalisisReporte5',methods = ['POST', 'GET'])
+def AnalisisReporte5():
+    print("Prediccion de Mortalidad en un pais")
+    if request.method == 'POST':
+        envio = request.form
+        parametros = json.loads(envio['columnas'])
+        #print(parametros)
+        nombreArchivo = envio['filename']
+        pais = envio['pais']
+        extension = nombreArchivo.split('.')
+    if(extension[len(extension)-1] =='csv'):
+        AnalisisRep5 = rep.AnalizarRep5("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2])
+    return jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep5[0]),AnalisisRep5[1],AnalisisRep5[0],AnalisisRep5[3],AnalisisRep5[5],AnalisisRep5[6])
 
 #-------------------------------------------------------------------------------------------
 archivonuevo = "" #nombre del Archivo Leido
