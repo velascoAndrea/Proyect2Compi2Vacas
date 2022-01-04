@@ -134,6 +134,22 @@ def AnalisisReporte2():
     return jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep2[0]),AnalisisRep2[1],AnalisisRep2[0],AnalisisRep2[3],AnalisisRep2[5],AnalisisRep2[6])
 
 
+@app.route('/AnalisisReporte4',methods = ['POST', 'GET'])
+def AnalisisReporte4():
+    print("Prediccion de Mortalidad en un pais")
+    if request.method == 'POST':
+        envio = request.form
+        parametros = json.loads(envio['columnas'])
+        #print(parametros)
+        nombreArchivo = envio['filename']
+        pais = envio['pais']
+        extension = nombreArchivo.split('.')
+    if(extension[len(extension)-1] =='csv'):
+        AnalisisRep4 = rep.AnalizarRep4("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2])
+    return jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep4[0]),AnalisisRep4[1],AnalisisRep4[0],AnalisisRep4[3],AnalisisRep4[5],AnalisisRep4[6])
+
+
+
 @app.route('/AnalisisReporte5',methods = ['POST', 'GET'])
 def AnalisisReporte5():
     print("Prediccion de Mortalidad en un pais")
@@ -147,6 +163,22 @@ def AnalisisReporte5():
     if(extension[len(extension)-1] =='csv'):
         AnalisisRep5 = rep.AnalizarRep5("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2])
     return jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep5[0]),AnalisisRep5[1],AnalisisRep5[0],AnalisisRep5[3],AnalisisRep5[5],AnalisisRep5[6])
+
+@app.route('/AnalisisReporte9',methods = ['POST', 'GET'])
+def AnalisisReporte9():
+    print("Prediccion de Mortalidad en un pais")
+    if request.method == 'POST':
+        envio = request.form
+        parametros = json.loads(envio['columnas'])
+        #print(parametros)
+        nombreArchivo = envio['filename']
+        pais = envio['pais']
+        extension = nombreArchivo.split('.')
+    if(extension[len(extension)-1] =='csv'):
+        AnalisisRep9 = rep.AnalizarRep9("./archs/"+nombreArchivo,pais,parametros[0],parametros[1],parametros[2])
+    return jsonify('<img class=\'img-thumbnail\' src=\'data:image/png;base64,{}\'>'.format(AnalisisRep9[0]),AnalisisRep9[1],AnalisisRep9[0],AnalisisRep9[3],AnalisisRep9[5],AnalisisRep9[6])
+
+
 
 #-------------------------------------------------------------------------------------------
 archivonuevo = "" #nombre del Archivo Leido

@@ -121,9 +121,45 @@
             </tr>
         </tbody>
     </table>
-</div>        
-   
+</div>      
+
+<!--Prediccion de Mortalidad en un Departamento pais-->
+<div class="col-xl-6 col-md-6 col-sm-12" id="tabla4visibiidad" style="display: none;">
+    <table id="tabla4" class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">departamento</th>
+                <th scope="col">Numero de muertes</th>
+                <th scope="col">Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id="filatabla4">
+            </tr>
+        </tbody>
+    </table>
+</div>   
+
+<!--Prediccion de Mortalidad en un Departamento pais-->
+<div class="col-xl-6 col-md-6 col-sm-12" id="tabla5visibiidad" style="display: none;">
+    <table id="tabla5" class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Pais</th>
+                <th scope="col">Numero de vacundos</th>
+                <th scope="col">Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id="filatabla5">
+            </tr>
+        </tbody>
+    </table>
+</div>   
+
 </div>
+
+
 
 
 
@@ -143,7 +179,7 @@
 <div id="ListaPaisesReporte1" style="display: none;"><!--DIV PARA PAISES-->
 <div class="row mt-4" id="listaPaises">
     <div class="col-12">
-        <h5>Lista de Paises</h5>
+        <h5>Lista Filtrada</h5>
     </div>
     <div class="col-xl-6 col-md col-sm-12">
         
@@ -185,6 +221,8 @@
         document.getElementById("tabla2visibiidad").style.display = 'none'
         document.getElementById("ListaPaisesReporte1").style.display = 'none'
         document.getElementById("tabla3visibiidad").style.display = 'none'
+        document.getElementById("tabla4visibiidad").style.display = 'none'
+        document.getElementById("tabla5visibiidad").style.display = 'none'
         //localStorage.removeItem('Imagen');
 
         var cur_value = $(this).val();
@@ -236,6 +274,52 @@
 
             })
         }
+        else if (cur_value == 4) {
+            //Prediccion de Mortalidad en un Pais
+            var colum = getColumnas().then(columnas => {
+                document.getElementById("tabla4visibiidad").style.display = 'block'
+                var Table = document.getElementById("tabla1body");
+                Table.innerHTML = "";
+                var Table2 =  document.getElementById("filatabla4");
+                Table2.innerHTML = ""; 
+
+                for (var i = 0; i < columnas.length; i++) {
+                    //$('#tabla1 tr:last').after(`<tr id="${columnas[i]}"><td>${columnas[i]}<input name="device" type="checkbox"></td></tr>`);
+                    //Aqui agrego los campos de la tabla Leida
+                    var input = document.createElement("input");
+                    input.type = "checkbox";
+                    input.name = "device"
+                    input.addEventListener("click", llamarOnClick, false)
+                    $("#tabla1").find('tbody').append(`<tr><td id="${columnas[i]}">${columnas[i]}</td></tr>`);
+                    var parent = document.getElementById(columnas[i]);
+                    parent.appendChild(input)
+                }
+
+            })
+        }
+        else if (cur_value == 9) {
+            //Prediccion de Mortalidad en un Pais
+            var colum = getColumnas().then(columnas => {
+                document.getElementById("tabla5visibiidad").style.display = 'block'
+                var Table = document.getElementById("tabla1body");
+                Table.innerHTML = "";
+                var Table2 =  document.getElementById("filatabla5");
+                Table2.innerHTML = ""; 
+
+                for (var i = 0; i < columnas.length; i++) {
+                    //$('#tabla1 tr:last').after(`<tr id="${columnas[i]}"><td>${columnas[i]}<input name="device" type="checkbox"></td></tr>`);
+                    //Aqui agrego los campos de la tabla Leida
+                    var input = document.createElement("input");
+                    input.type = "checkbox";
+                    input.name = "device"
+                    input.addEventListener("click", llamarOnClick, false)
+                    $("#tabla1").find('tbody').append(`<tr><td id="${columnas[i]}">${columnas[i]}</td></tr>`);
+                    var parent = document.getElementById(columnas[i]);
+                    parent.appendChild(input)
+                }
+
+            })
+        }
 
     });
 
@@ -263,8 +347,12 @@
             // movemos la columna a la tabla2
             if(($("#selectAnalisis").val() ==1 || $("#selectAnalisis").val() ==2 )){
                 var tr = $(this).parents("td").appendTo("#tabla2 tbody tr:last");
-            }if($("#selectAnalisis").val() ==5){
+            }else if($("#selectAnalisis").val() ==5){
                 var tr = $(this).parents("td").appendTo("#tabla3 tbody tr:last");
+            }if($("#selectAnalisis").val() ==4){
+                var tr = $(this).parents("td").appendTo("#tabla4 tbody tr:last");
+            }if($("#selectAnalisis").val() ==9){
+                var tr = $(this).parents("td").appendTo("#tabla5 tbody tr:last");
             }
             console.log("Entro")
         } else {
@@ -308,10 +396,15 @@
 
         var selectAnalisis = $("#selectAnalisis").val()
 
-        if(selectAnalisis == 1 || selectAnalisis == 2 || selectAnalisis == 5){
+        if(selectAnalisis == 1 || selectAnalisis == 2 || selectAnalisis == 4 || selectAnalisis == 5 || selectAnalisis == 9){
             var cells = Array.prototype.slice.call(document.getElementById("tabla2").getElementsByTagName("td"));
             if(selectAnalisis == 5){
                 cells = Array.prototype.slice.call(document.getElementById("tabla3").getElementsByTagName("td"));
+            }else if(selectAnalisis == 4){
+                cells = Array.prototype.slice.call(document.getElementById("tabla4").getElementsByTagName("td"));
+            }
+            else if(selectAnalisis == 9){
+                cells = Array.prototype.slice.call(document.getElementById("tabla5").getElementsByTagName("td"));
             }
         for (var i in cells) {
             console.log(cells[i].innerText);
@@ -413,9 +506,63 @@
                 alert('Disculpe, existió un problema intetelo nuevamente');
             },
         });
-        } if(selectAnalisis ==5){
+        }else if(selectAnalisis ==5){
             $.ajax({
             url: "/AnalisisReporte5",
+            type: 'POST',
+            data: {
+                columnas: JSON.stringify(arr),
+                filename: localStorage.getItem('Archivo'),
+                pais: selectPais
+            },
+            beforeSend: function (xhr, settings) {
+                xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+            },
+            success: function (response) {
+                //document.getElementById('Imagen').innerHTML = response
+                //alert(response)
+                localStorage.setItem('Imagen', response[0]);
+                localStorage.setItem('reporte', response[1]);
+                localStorage.setItem('imgbase64', response[2]);
+                localStorage.setItem('pais', response[3]);
+                localStorage.setItem('ecuacion', response[4]);
+                localStorage.setItem('descripcion', response[5]);
+                window.location = "{{url_for('reportes')}}";
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Disculpe, existió un problema intetelo nuevamente');
+            },
+        });
+        }else if(selectAnalisis ==4){
+            $.ajax({
+            url: "/AnalisisReporte4",
+            type: 'POST',
+            data: {
+                columnas: JSON.stringify(arr),
+                filename: localStorage.getItem('Archivo'),
+                pais: selectPais
+            },
+            beforeSend: function (xhr, settings) {
+                xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+            },
+            success: function (response) {
+                //document.getElementById('Imagen').innerHTML = response
+                //alert(response)
+                localStorage.setItem('Imagen', response[0]);
+                localStorage.setItem('reporte', response[1]);
+                localStorage.setItem('imgbase64', response[2]);
+                localStorage.setItem('pais', response[3]);
+                localStorage.setItem('ecuacion', response[4]);
+                localStorage.setItem('descripcion', response[5]);
+                window.location = "{{url_for('reportes')}}";
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Disculpe, existió un problema intetelo nuevamente');
+            },
+        });
+        }else if(selectAnalisis ==9){
+            $.ajax({
+            url: "/AnalisisReporte9",
             type: 'POST',
             data: {
                 columnas: JSON.stringify(arr),
